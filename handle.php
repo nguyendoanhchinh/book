@@ -22,21 +22,26 @@ if ($action == 'loadAll') {
 }
 //sắp xếp sách
 else if ($action == 'sapxep') {
-    
     $result = mysqli_query($conn, 'select count(s_id) as total from sach');
+    if($_POST['id_category'] != ''){
+        $result = mysqli_query($conn, 'select count(s_id) as total from sach where tl_id ='.$_POST['id_category']);
+    }
     $row = mysqli_fetch_assoc($result);
     $total = $row['total'];
-
     $current_page = isset($_POST['current_page']) ? intval($_POST['current_page']) : 1;
     $limit = 12;
     //tổng số trang làm  tròn lên
     $total_page = ceil($total / $limit);
     // Tìm trang đầu
     $start = ($current_page - 1) * $limit;
-
     $sapxep = $_POST['sapxep'];
     $sql = "SELECT * FROM sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
     INNER JOIN theloai ON sach.tl_id = theloai.tl_id order by " . $sapxep . " limit  $start,$limit";
+    if($_POST['id_category'] != ''){
+        $sql = "SELECT * FROM sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
+    INNER JOIN theloai ON sach.tl_id = theloai.tl_id where theloai.tl_id = ".$_POST['id_category']."  order by " . $sapxep . " limit  $start,$limit";
+    
+    }
 }
 // hiển thị theo thể loại
 else if ($action == 'theloai') {
@@ -152,4 +157,4 @@ while ($row = mysqli_fetch_assoc($query)) { ?>
         </ul>
     </nav>
 </div>
-<input type="hidden" id_category="<?php echo $_POST['id_category'] ?>" id="panigation_cate">
+<input type="hidden" sapxep="<?php if(isset($_POST['sapxep'])){echo $_POST['sapxep'];} ?>" action=<?=$action?>  id_category="<?php if(isset($_POST['id_category'])){echo $_POST['id_category'];} ?>" id="panigation_cate">

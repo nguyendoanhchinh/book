@@ -2,54 +2,66 @@ loadALL()
 
 function loadALL() {
     var action = "loadAll";
-    var current_page = $(this).attr('page_pagination');
+    // var current_page = $(this).attr('page_pagination');
     $.ajax({
         method: "POST",
         url: "handle.php",
-        data: { action: action, current_page: current_page },
-        success: function(data) {
+        data: {
+            action: action,
+            // current_page: current_page,
+        },
+        success: function (data) {
             $('#data_search').html(data);
         }
     });
 }
 
-$(document).on('click', '.page-item', loadALL);
+// $(document).on('click', '.page-item', loadALL);
 
 
-$('#sapxep').change(function(e) {
+$('#sapxep').change(function (e) {
     e.preventDefault();
     var action = "sapxep";
     var sapxep = $(this).val();
-
+    var id_category = $('#panigation_cate').attr('id_category');
     $.ajax({
         method: "POST",
         url: "handle.php",
-        data: { action: action, sapxep: sapxep },
-        success: function(data) {
+        data: {
+            action: action,
+            sapxep: sapxep,
+            id_category: id_category,
+        },
+        success: function (data) {
             $('#data_search').html(data);
 
         }
     });
 })
-$(document).on('click', '.page-item', function(e) {
+$(document).on('click', '.page-item', function (e) {
     e.preventDefault();
-    var action = "theloai";
+    var action = $('#panigation_cate').attr('action');
     var id_category = $('#panigation_cate').attr('id_category');
-
+    var sapxep = $('#panigation_cate').attr('sapxep');
     var current_page = $(this).attr('page_pagination');
-    console.log(current_page)
 
+    console.log(current_page)
     $.ajax({
         type: "POST",
         url: "handle.php",
-        data: { current_page: current_page, action: action, id_category: id_category },
-        success: function(data) {
+        data: { 
+            current_page: current_page, 
+            action: action, 
+            id_category: id_category,
+            sapxep:sapxep
+         },
+        success: function (data) {
             $('#data_search').html(data);
         }
     });
 });
 
-$(document).on('click', '#parent li', function(e) {
+$(document).on('click', '#parent li', function (e) {
     e.preventDefault();
     $('#parent li').removeClass('active');
     $(this).addClass('active');
@@ -60,7 +72,7 @@ $(document).on('click', '#parent li', function(e) {
         type: "POST",
         url: "handle.php",
         data: { action: action, id_category: id_category, current_page: current_page },
-        success: function(data) {
+        success: function (data) {
             $('#data_search').html(data);
         }
     });
