@@ -80,7 +80,41 @@ else if ($action == 'theloai') {
     INNER JOIN tacgia ON sach.tg_id = tacgia.tg_id
     WHERE theloai.tl_id = $theloai limit $start,$limit";
 }
+ if($action=='timkiem'){
+    
+    if(isset($_POST['load'])){
+        $timkiem = $_POST['load'];
+        $result = mysqli_query($conn, "select count(s_id) as total from sach where s_ten = '$timkiem'");
+        $row = mysqli_fetch_assoc($result);
+        $total = $row['total'];
+        $current_page = isset($_POST['current_page']) ? intval($_POST['current_page']) : 1;
+        $limit = 12;
+        //tổng số trang làm  tròn lên
+        $total_page = ceil($total / $limit);
+        // Tìm trang đầu
+        $start = ($current_page - 1) * $limit;
+        $sql = "SELECT *
+        FROM sach INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
+        INNER JOIN theloai ON sach.tl_id = theloai.tl_id where s_ten like concat('%$timkiem%')  ";
+    }else{
+        $result = mysqli_query($conn, 'select count(s_id) as total from sach');
+    $row = mysqli_fetch_assoc($result);
+    $total = $row['total'];
 
+    $current_page = isset($_POST['current_page']) ? intval($_POST['current_page']) : 1;
+    $limit = 12;
+    //tổng số trang làm  tròn lên
+    $total_page = ceil($total / $limit);
+    // Tìm trang đầu
+    $start = ($current_page - 1) * $limit;
+        // Tạo câu truy vấn SQL mặc định để hiển thị toàn bộ sản phẩm
+        $sql = "SELECT * from sach INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
+            INNER JOIN theloai ON sach.tl_id = theloai.tl_id limit $start,$limit";
+    }
+    
+    
+    
+ }
 
 $query = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($query)) { ?>
