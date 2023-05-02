@@ -2,24 +2,42 @@ loadALL()
 
 function loadALL() {
     var action = "loadAll";
-    // var current_page = $(this).attr('page_pagination');
+    var minimum_price = $("#hidden_minimum_price").val();
+    var maximum_price = $("#hidden_maximum_price").val();
     $.ajax({
         method: "POST",
         url: "handle.php",
         data: {
             action: action,
-            // current_page: current_page,
+            minimum_price: minimum_price,
+            maximum_price: maximum_price
         },
-        success: function (data) {
+        success: function(data) {
             $('#data_search').html(data);
         }
     });
 }
 
-// $(document).on('click', '.page-item', loadALL);
+$(document).ready(function() {
+    loadALL();
+    $('#price_range').slider({
+        range: true,
+        min: 0,
+        max: 1000000,
+        values: [0, 2000000],
+        step: 50000,
+        stop: function(event, ui) {
 
+            $('#price_show').html(ui.values[0] + ' đ' + ' - ' + ui.values[1] + ' đ');
+            $('#hidden_minimum_price').val(ui.values[0]);
+            $('#hidden_maximum_price').val(ui.values[1]);
+            loadALL()
+        }
+    });
 
-$('#sapxep').change(function (e) {
+});
+
+$('#sapxep').change(function(e) {
     e.preventDefault();
     var action = "sapxep";
     var sapxep = $(this).val();
@@ -32,13 +50,13 @@ $('#sapxep').change(function (e) {
             sapxep: sapxep,
             id_category: id_category,
         },
-        success: function (data) {
+        success: function(data) {
             $('#data_search').html(data);
 
         }
     });
 })
-$(document).on('click', '.page-item', function (e) {
+$(document).on('click', '.page-item', function(e) {
     e.preventDefault();
     var action = $('#panigation_cate').attr('action');
     var id_category = $('#panigation_cate').attr('id_category');
@@ -49,19 +67,19 @@ $(document).on('click', '.page-item', function (e) {
     $.ajax({
         type: "POST",
         url: "handle.php",
-        data: { 
-            current_page: current_page, 
-            action: action, 
+        data: {
+            current_page: current_page,
+            action: action,
             id_category: id_category,
-            sapxep:sapxep
-         },
-        success: function (data) {
+            sapxep: sapxep
+        },
+        success: function(data) {
             $('#data_search').html(data);
         }
     });
 });
 
-$(document).on('click', '#parent li', function (e) {
+$(document).on('click', '#parent li', function(e) {
     e.preventDefault();
     $('#parent li').removeClass('active');
     $(this).addClass('active');
@@ -72,7 +90,7 @@ $(document).on('click', '#parent li', function (e) {
         type: "POST",
         url: "handle.php",
         data: { action: action, id_category: id_category, current_page: current_page },
-        success: function (data) {
+        success: function(data) {
             $('#data_search').html(data);
         }
     });

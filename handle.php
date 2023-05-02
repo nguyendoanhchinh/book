@@ -5,8 +5,26 @@ include "database/connect.php";
 //hiển thị dữ liệu sách
 $action = $_POST['action'];
 if ($action == 'loadAll') {
-
-    $result = mysqli_query($conn, 'select count(s_id) as total from sach');
+   
+    if (isset($_POST['minimum_price']) && isset($_POST['maximum_price'])) {
+        $min = $_POST['minimum_price'];
+        $max = $_POST['maximum_price'];
+        $result = mysqli_query($conn, "select count(s_id) as total from sach where s_gia between $min and $max");
+        $row = mysqli_fetch_assoc($result);
+        $total = $row['total'];
+    
+        $current_page = isset($_POST['current_page']) ? intval($_POST['current_page']) : 1;
+        $limit = 12;
+        //tổng số trang làm  tròn lên
+        $total_page = ceil($total / $limit);
+        // Tìm trang đầu
+        $start = ($current_page - 1) * $limit;
+        $min = $_POST['minimum_price'];
+        $max = $_POST['maximum_price'];
+        $sql = "SELECT * from sach INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
+            INNER JOIN theloai ON sach.tl_id = theloai.tl_id where s_gia between $min and $max limit $start,$limit";
+    } else {
+        $result = mysqli_query($conn, 'select count(s_id) as total from sach');
     $row = mysqli_fetch_assoc($result);
     $total = $row['total'];
 
@@ -16,9 +34,10 @@ if ($action == 'loadAll') {
     $total_page = ceil($total / $limit);
     // Tìm trang đầu
     $start = ($current_page - 1) * $limit;
-
-    $sql = "SELECT * from sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
-        INNER JOIN theloai ON sach.tl_id = theloai.tl_id limit  $start,$limit ";
+        // Tạo câu truy vấn SQL mặc định để hiển thị toàn bộ sản phẩm
+        $sql = "SELECT * from sach INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
+            INNER JOIN theloai ON sach.tl_id = theloai.tl_id limit $start,$limit";
+    }
 }
 //sắp xếp sách
 else if ($action == 'sapxep') {

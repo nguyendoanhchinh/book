@@ -146,6 +146,21 @@ session_start();
 											}
 										</style>
 									</div>
+									<div class="tg-widget tg-widgetblogers">
+										<div class="tg-widgettitle">
+											<h3>Giá tiền</h3>
+										</div>
+										
+											<div class="list-group">
+												<input type="hidden" id="hidden_minimum_price" value="0" />
+												<input type="hidden" id="hidden_maximum_price" value="2000000" />
+												<p id="price_show">0đ - 1,000,000đ </p>
+												<div id="price_range"></div>
+											</div>
+									 
+
+
+									</div>
 									<div class="tg-widget tg-catagories">
 										<div class="tg-widgettitle">
 											<h3>Thể loại</h3>
@@ -178,7 +193,7 @@ session_start();
 												$sql = "SELECT *
 												FROM sach
 												JOIN tacgia
-												ON sach.tg_id = tacgia.tg_id order by rand() limit 8";
+												ON sach.tg_id = tacgia.tg_id order by rand() limit 11";
 												$query = mysqli_query($conn, $sql);
 												while ($row = mysqli_fetch_assoc($query)) { ?>
 													<li>
@@ -199,23 +214,7 @@ session_start();
 										</div>
 									</div>
 
-									<div class="tg-widget tg-widgetblogers">
-										<div class="tg-widgettitle">
-											<h3>Tác giả</h3>
-										</div>
-										<?php
-										$sql = "SELECT * FROM tacgia ";
-										$query = mysqli_query($conn, $sql);
-										while ($row = mysqli_fetch_assoc($query)) { ?>
-											<div class="form-check" style="font-size: 15px; margin-bottom: 11px;     padding: 10px;">
-												<input class="form-check-input" type="checkbox" value="<?php echo $row['tg_id'] ?>" id="flexCheckDefault"> <?php echo $row['tg_ten'] ?>
-												</label>
-											</div>
-										<?php  }
-										?>
-
-
-									</div>
+									
 								</aside>
 							</div>
 						</div>
