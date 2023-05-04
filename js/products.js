@@ -1,5 +1,3 @@
-loadALL()
-
 function loadALL() {
     var action = "loadAll";
     var minimum_price = $("#hidden_minimum_price").val();
@@ -18,8 +16,6 @@ function loadALL() {
         }
     });
 }
-
-
 $('#price_range').slider({
     range: true,
     min: 0,
@@ -36,10 +32,8 @@ $('#price_range').slider({
     }
 });
 
-
-
 $('#sapxep').change(function(e) {
-    e.preventDefault();
+    e.stopPropagation(); // Ngăn chặn sự kiện "change" lan ra các phần tử khác
     var action = "sapxep";
     var sapxep = $(this).val();
     var id_category = $('#panigation_cate').attr('id_category');
@@ -53,10 +47,10 @@ $('#sapxep').change(function(e) {
         },
         success: function(data) {
             $('#data_search').html(data);
-
         }
     });
 })
+
 $(document).on('click', '.page-item', function(e) {
     e.preventDefault();
     var action = $('#panigation_cate').attr('action');
@@ -80,6 +74,23 @@ $(document).on('click', '.page-item', function(e) {
     });
 });
 
+// $(document).on('click', '#parent li', function(e) {
+//     e.preventDefault();
+//     $('#parent li').removeClass('active');
+//     $(this).addClass('active');
+//     var action = "theloai";
+//     var id_category = $(this).attr('data-value');
+//     var current_page = 1;
+//     $.ajax({
+//         type: "POST",
+//         url: "handle.php",
+//         data: { action: action, id_category: id_category, current_page: current_page },
+//         success: function(data) {
+//             $('#data_search').html(data);
+//         }
+//     });
+// });
+
 $(document).on('click', '#parent li', function(e) {
     e.preventDefault();
     $('#parent li').removeClass('active');
@@ -92,50 +103,66 @@ $(document).on('click', '#parent li', function(e) {
         url: "handle.php",
         data: { action: action, id_category: id_category, current_page: current_page },
         success: function(data) {
-            $('#data_search').html(data);
+            if (window.location.pathname.endsWith('products.php')) {
+                $('#data_search').html(data);
+            } else {
+                window.location.href = 'products.php?category=' + id_category;
+            }
         }
     });
 });
 $(document).ready(function() {
-    $(document).on('click', '#search_btn', function(e) {
-        e.preventDefault();
-        var action = 'timkiem';
-        var load = $('#inputsearch').val();
+    if (window.location.search) {
+        var urlParams = new URLSearchParams(window.location.search);
+        var id_category = urlParams.get('category');
+        $('#parent li[data-value="' + id_category + '"]').trigger('click');
+    }
+})
 
-        if (load == '') {
-            alert('Bạn chưa nhập thông tin');
-        } else {
-            $.ajax({
-                url: 'handle.php',
-                method: 'POST',
-                data: {
-                    action: action,
-                    load: load
-                },
-                success: function(data) {
+$(document).on('submit', '#search_form', function(e) {
+    e.preventDefault();
+    var action = 'timkiem';
+    var load = $('#inputsearch').val();
+    if (load == '') {
+        alert('Bạn chưa nhập thông tin');
+    } else {
+        $.ajax({
+            url: 'handle.php',
+            method: 'POST',
+            data: {
+                action: action,
+                load: load
+            },
+            success: function(data) {
+                // Lưu kết quả tìm kiếm vào lưu trữ phiên
+                sessionStorage.setItem('searchResults', JSON.stringify(data));
+                // Thiết lập cờ trạng thái để cho biết đã tìm kiếm
+                sessionStorage.setItem('isSearched', true);
+                // Chuyển hướng người dùng đến trang products.php
+                window.location.href = 'products.php';
 
-                    //Lưu kết quả tìm kiếm vào lưu trữ phiên
-                    sessionStorage.setItem('searchResults', JSON.stringify(data));
-
-                    // Chuyển hướng người dùng đến trang products.php
-                    window.location.href = 'products.php';
-                }
-            })
-        }
-    })
+            }
+        })
+    }
 });
+
 $(document).ready(function() {
-    // Kiểm tra xem có dữ liệu tìm kiếm nào được lưu trong lưu trữ phiên không
-    if (sessionStorage.getItem('searchResults')) {
+    // Kiểm tra xem đã tìm kiếm hay chưa
+    var isSearched = sessionStorage.getItem('isSearched');
+    if (isSearched) {
         // Lấy dữ liệu tìm kiếm từ lưu trữ phiên
         var searchResults = JSON.parse(sessionStorage.getItem('searchResults'));
         console.log(searchResults)
             // Hiển thị kết quả tìm kiếm trong phần tử HTML có id là data_search
         $('#data_search').html(searchResults);
 
-        //ẩn pagination
-        // $('#pagination_book').hide();
-        // Xóa dữ liệu tìm kiếm khỏi lưu trữ phiên
+        // ẩn pagination
+
+        // Xóa dữ liệu tìm kiếm khỏi lưu trữ phiên và đặt lại cờ trạng thái
         sessionStorage.removeItem('searchResults');
+        sessionStorage.removeItem('isSearched');
+    } else {
+        // Nếu chưa tìm kiếm thì hiển thị tất cả các sản phẩm bằng hàm loadALL()
+        loadALL();
     }
 });

@@ -65,6 +65,7 @@ else if ($action == 'sapxep') {
 // hiển thị theo thể loại
 else if ($action == 'theloai') {
     $theloai = $_POST['id_category'];
+    
     $result = mysqli_query($conn, "select count(s_id) as total from sach where tl_id=$theloai");
     $row = mysqli_fetch_assoc($result);
     $total = $row['total'];

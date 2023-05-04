@@ -300,27 +300,12 @@ if (!isset($_GET['productdetail'])) {
 							</div>
 							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
 								<aside id="tg-sidebar" class="tg-sidebar">
-									
+
 									<div class="tg-widget tg-catagories">
 										<div class="tg-widgettitle">
 											<h3>Thể loại</h3>
-										</div>
-										<div class="tg-widgetcontent"  id="detail_product">
-											
-											<?php
-											include "database/connect.php";
-											$sql = "SELECT theloai.tl_id, theloai.tl_ten, COUNT(sach.tl_id) as tongsosach 
-											FROM theloai 
-											LEFT JOIN sach ON sach.tl_id = theloai.tl_id 
-											GROUP BY theloai.tl_id, theloai.tl_ten";
-											$query = mysqli_query($conn, $sql);
-											while ($row = mysqli_fetch_assoc($query)) { ?>
-												<ul>
-													<li data-value="<?php echo $row['tl_id'] ?>"><a href="#"><span><?php echo $row['tl_ten'] ?></span><em><?php echo $row['tongsosach'] ?></em></a></li>
-												</ul>
-											<?php }
-											?>
-										</div>
+											</div>
+											<?php include "header/category.php" ?>
 									</div>
 									<div class="tg-widget tg-widgettrending">
 										<div class="tg-widgettitle">
@@ -332,7 +317,7 @@ if (!isset($_GET['productdetail'])) {
 												$sql = "SELECT *
 												FROM sach
 												JOIN tacgia
-												ON sach.tg_id = tacgia.tg_id order by rand() limit 8";
+												ON sach.tg_id = tacgia.tg_id order by rand() limit 15";
 												$query = mysqli_query($conn, $sql);
 												while ($row = mysqli_fetch_assoc($query)) { ?>
 													<li>
@@ -352,51 +337,7 @@ if (!isset($_GET['productdetail'])) {
 											</ul>
 										</div>
 									</div>
-									<div class="tg-widget tg-widgetblogers">
-										<div class="tg-widgettitle">
-											<h3>Tác giả nổi tiếng </h3>
-										</div>
-										<div class="tg-widgetcontent">
-											<ul>
-												<li>
-													<div class="tg-author">
-														<figure><a href="#"><img src="images/author/imag-03.jpg" alt="image description"></a></figure>
-														<div class="tg-authorcontent">
-															<h2><a href="#">Jude Morphew</a></h2>
-															<span>21,658 Published Books</span>
-														</div>
-													</div>
-												</li>
-												<li>
-													<div class="tg-author">
-														<figure><a href="#"><img src="images/author/imag-04.jpg" alt="image description"></a></figure>
-														<div class="tg-authorcontent">
-															<h2><a href="#">Jude Morphew</a></h2>
-															<span>21,658 Published Books</span>
-														</div>
-													</div>
-												</li>
-												<li>
-													<div class="tg-author">
-														<figure><a href="#"><img src="images/author/imag-05.jpg" alt="image description"></a></figure>
-														<div class="tg-authorcontent">
-															<h2><a href="#">Jude Morphew</a></h2>
-															<span>21,658 Published Books</span>
-														</div>
-													</div>
-												</li>
-												<li>
-													<div class="tg-author">
-														<figure><a href="#"><img src="images/author/imag-06.jpg" alt="image description"></a></figure>
-														<div class="tg-authorcontent">
-															<h2><a href="#">Jude Morphew</a></h2>
-															<span>21,658 Published Books</span>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
+									
 								</aside>
 							</div>
 						</div>
