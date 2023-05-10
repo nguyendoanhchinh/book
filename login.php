@@ -13,6 +13,7 @@ if (isset($_POST['btn_login'])) {
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_array($result);
             if ($row['status'] == 0) {
+                $_SESSION['k_id']=$row['k_id'];
                 $_SESSION['k_email'] = $row['k_ten'];
                 $_SESSION['k_avatar'] = $row['k_avatar'];
                 header("location:index.php");

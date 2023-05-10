@@ -1332,7 +1332,7 @@ body.tg-comingsoonpage .tg-wrapper {
     border: 0;
     opacity: 0;
     z-index: 10;
-    width: 330px;
+    width: 160px;
     padding: 15px;
     display: block;
     border-radius: 0;
@@ -1606,7 +1606,8 @@ li.menu-item-has-children {
     position: relative;
 }
 
-li.menu-item-has-children>a:before {
+
+/* li.menu-item-has-children>a:before {
     top: 0;
     right: 20px;
     content: '\f107';
@@ -1614,7 +1615,7 @@ li.menu-item-has-children>a:before {
     font-size: inherit;
     line-height: inherit;
     font-family: 'FontAwesome';
-}
+} */
 
 .tg-navigation>ul>li>a:hover,
 .tg-navigation>ul>li.current-menu-item>a {

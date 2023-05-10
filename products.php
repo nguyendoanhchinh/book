@@ -103,9 +103,9 @@ session_start();
 																		<ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
 																		<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
 																	</span>
-																	<a class="tg-btn tg-btnstyletwo tg-active" href="#">
+																	<a class="tg-btn tg-btnstyletwo tg-active  add-to-cart" href="#">
 																		<i class="fa fa-shopping-basket"></i>
-																		<em>Thêm giỏ hàng</em>
+																		<em s_id="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_price="<?php echo $row['s_gia']; ?>" s_anh="<?php echo $row['anh']; ?>" s_sl="1">Thêm giỏ hàng</em>
 																	</a>
 																</div>
 															</div>
@@ -126,6 +126,21 @@ session_start();
 											<option value="s_gia DESC">Giá giảm dần</option>
 										</select>
 
+										<!-- Modal -->
+										<div class="modal fade" id="myModal" role="dialog">
+											<div class="modal-dialog">
+
+												<!-- Modal content-->
+												<div class="modal-content" style="margin-top: 50%;">
+
+													<div class="modal-body">
+
+													</div>
+
+												</div>
+
+											</div>
+										</div>
 
 										<div class="tg-productgrid" id="data_search">
 
@@ -150,14 +165,14 @@ session_start();
 										<div class="tg-widgettitle">
 											<h3>Giá tiền</h3>
 										</div>
-										
-											<div class="list-group">
-												<input type="hidden" id="hidden_minimum_price" value="0" />
-												<input type="hidden" id="hidden_maximum_price" value="2000000" />
-												<p id="price_show">0đ - 1,000,000đ </p>
-												<div id="price_range"></div>
-											</div>
-									 
+
+										<div class="list-group">
+											<input type="hidden" id="hidden_minimum_price" value="0" />
+											<input type="hidden" id="hidden_maximum_price" value="2000000" />
+											<p id="price_show">0đ - 1,000,000đ </p>
+											<div id="price_range"></div>
+										</div>
+
 
 
 									</div>
@@ -198,7 +213,7 @@ session_start();
 										</div>
 									</div>
 
-									
+
 								</aside>
 							</div>
 						</div>
@@ -236,6 +251,8 @@ session_start();
 	<script src="js/gmap3.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/products.js"></script>
+	<script src="js/cart.js"></script>
+
 </body>
 
 </html>

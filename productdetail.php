@@ -132,80 +132,107 @@ if (!isset($_GET['productdetail'])) {
 												$row = mysqli_fetch_array($query);
 											}
 											?>
-											<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-												<div class="tg-postbook">
-													<div class="tg-frontcover"><img src="images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="image description"></div>
-													<div class="tg-postbookcontent">
-														<span class="tg-bookprice">
-															<ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
-															<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
-														</span>
-														<span class="tg-bookwriter">Giảm được : <?= number_format(($row['s_gia']) * ($row['s_giamgia']) / 100)	 ?> vnđ</span>
-														<ul class="tg-delevrystock">
-															<li><i class="icon-rocket"></i><span>Miễn Phí Vận Chuyển</span></li>
+											<form action="" method="POST" class="form-submit">
 
-															<li><i class="icon-store"></i><span>Trạng thái: <em>
-																		<?php if ($row['soluong'] > 0) {
-																			echo "Còn";
-																		} else {
-																			echo "Hết";
-																		} ?></em></span></li>
-														</ul>
-														<div class="tg-quantityholder">
-															<em class="minus">-</em>
-															<input type="text" class="result" value="0" id="quantity1" name="quantity">
-															<em class="plus">+</em>
+												<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+													<div class="tg-postbook">
+														<div class="tg-frontcover"><img src="images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="image description"></div>
+														<div class="tg-postbookcontent">
+															<span class="tg-bookprice">
+																<ins><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100)  ?>₫</ins>
+																<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
+															</span>
+															<span class="tg-bookwriter">Giá ban đầu : <del><?= number_format($row['s_gia'])  ?> ₫</del></span>
+															<ul class="tg-delevrystock">
+																<li><i class="icon-rocket"></i><span>Miễn Phí Vận Chuyển</span></li>
+
+																<li><i class="icon-store"></i><span>Trạng thái: <em>
+																			<?php if ($row['soluong'] > 0) {
+																				echo "Còn";
+																			} else {
+																				echo "Hết";
+																			} ?></em></span></li>
+															</ul>
+															<div class="tg-quantityholder">
+																<em class="minus">-</em>
+																<input type="text" class="result pqty" value="0" name="quantity" id="quantity1">
+																<em class="plus">+</em>
+															</div>
+
+															<input type="hidden" class="pid" value="<?php echo $row['s_id']; ?>">
+															<input type="hidden" class="pname" value="<?php echo $row['s_ten']; ?>">
+															<input type="hidden" class="pprice" value="<?php echo $row['s_gia']; ?>">
+															<input type="hidden" class="pimage" value="<?php echo $row['anh']; ?>">
+
+
+															<button data-toggle="modal" data-target="#myModal" <?php if ($row['soluong'] == 0) {
+																													echo 'disabled';
+																												} ?> type="submit" class="btn tg-btn tg-active tg-btn-lg add-to-cart" id="<?php echo $row['s_id']; ?>" value="">Thêm giỏ hàng</button>
+
+
 														</div>
-														<a class="tg-btn tg-active tg-btn-lg" href="#">Thêm giỏ hàng</a>
+													</div>
+												</div>
+
+
+												<!-- Modal -->
+												<div class="modal fade" id="myModal" role="dialog">
+													<div class="modal-dialog">
+
+														<!-- Modal content-->
+														<div class="modal-content" style="margin-top: 50%;">
+
+															<div class="modal-body">
+
+															</div>
+
+														</div>
 
 													</div>
 												</div>
-											</div>
-											<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-												<div class="tg-productcontent">
-													<ul class="tg-bookscategories">
-														<li><a href="#"><?php echo $row['tl_ten']; ?></a></li>
-													</ul>
-													<div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
-													<div class="tg-booktitle">
-														<h3><?php echo $row['s_ten'] ?></h3>
-													</div>
-													<span class="tg-bookwriter">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
-													<span class="tg-stars"><span></span></span>
 
-													<div class="tg-share">
-														<span>Chia sẻ:</span>
-														<ul class="tg-socialicons">
-															<li class="tg-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
-															<li class="tg-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
-															<li class="tg-linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-															<li class="tg-googleplus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-															<li class="tg-rss"><a href="#"><i class="fa fa-rss"></i></a></li>
+
+												<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+													<div class="tg-productcontent">
+														<ul class="tg-bookscategories">
+															<li><a href="#"><?php echo $row['tl_ten']; ?></a></li>
+														</ul>
+
+														<div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
+														<div class="tg-booktitle">
+															<h3 id="name<?php echo $row["s_id"]; ?>"><?php echo $row['s_ten'] ?></h3>
+														</div>
+														<span class="tg-bookwriter">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
+														<span class="tg-stars"><span></span></span>
+
+														<div class="tg-share">
+															<span>Chia sẻ:</span>
+															<ul class="tg-socialicons">
+																<li class="tg-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+																<li class="tg-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+																<li class="tg-linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+																<li class="tg-googleplus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+																<li class="tg-rss"><a href="#"><i class="fa fa-rss"></i></a></li>
+															</ul>
+														</div>
+														<div class="tg-description">
+															<p style="width: 517px;overflow: hidden;text-overflow: ellipsis;line-height: 20px;-webkit-line-clamp: 5;display: -webkit-box;-webkit-box-orient: vertical;	"><?php echo $row['mota'] ?></p>
+
+														</div>
+														<div class="tg-sectionhead">
+															<h2>Thông tin chi tiết</h2>
+														</div>
+														<ul class="tg-productinfo">
+															<li><span>Lượt mua:</span><span><?= $row['luotmua']; ?></span></li>
+															<li><span>Số Trang:</span><span><?php echo $row['sotrang']; ?></span></li>
+															<li><span>Nhà xuất bản:</span><span><?php echo $row['nxb']; ?></span></li>
+															<li><span> Năm xuất bản:</span><span><?php echo $row['namxuatban']; ?></span></li>
+															<li><span>Tác giả:</span><span><?php echo $row['tg_ten']; ?></span></li>
+															<li><span>Ngôn ngữ:</span><span><?= $row['ngonngu']; ?></span></li>
 														</ul>
 													</div>
-													<div class="tg-description">
-														<p style="width: 517px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 20px;
-    -webkit-line-clamp: 5;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;	"><?php echo $row['mota'] ?></p>
-
-													</div>
-													<div class="tg-sectionhead">
-														<h2>Thông tin chi tiết</h2>
-													</div>
-													<ul class="tg-productinfo">
-														<li><span>Lượt mua:</span><span><?= $row['luotmua']; ?></span></li>
-														<li><span>Số Trang:</span><span><?php echo $row['sotrang']; ?></span></li>
-														<li><span>Nhà xuất bản:</span><span><?php echo $row['nxb']; ?></span></li>
-														<li><span> Năm xuất bản:</span><span><?php echo $row['namxuatban']; ?></span></li>
-														<li><span>Tác giả:</span><span><?php echo $row['tg_ten']; ?></span></li>
-														<li><span>Ngôn ngữ:</span><span><?= $row['ngonngu']; ?></span></li>
-													</ul>
 												</div>
-											</div>
+											</form>
 											<div class="tg-productdescription">
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<div class="tg-sectionhead">
@@ -281,10 +308,10 @@ if (!isset($_GET['productdetail'])) {
 																			<ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
 																			<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
 																		</span>
-																		<a class="tg-btn tg-btnstyletwo" href="#">
+																		<!-- <a class="tg-btn tg-btnstyletwo" href="#">
 																			<i class="fa fa-shopping-basket"></i>
 																			<em>Thêm giỏ hàng</em>
-																		</a>
+																		</a> -->
 																	</div>
 																</div>
 															</div>
@@ -304,8 +331,8 @@ if (!isset($_GET['productdetail'])) {
 									<div class="tg-widget tg-catagories">
 										<div class="tg-widgettitle">
 											<h3>Thể loại</h3>
-											</div>
-											<?php include "header/category.php" ?>
+										</div>
+										<?php include "header/category.php" ?>
 									</div>
 									<div class="tg-widget tg-widgettrending">
 										<div class="tg-widgettitle">
@@ -337,7 +364,7 @@ if (!isset($_GET['productdetail'])) {
 											</ul>
 										</div>
 									</div>
-									
+
 								</aside>
 							</div>
 						</div>
@@ -348,6 +375,7 @@ if (!isset($_GET['productdetail'])) {
 					News Grid End
 			*************************************-->
 		</main>
+
 		<!--************************************
 				Main End
 		*************************************-->
@@ -375,6 +403,7 @@ if (!isset($_GET['productdetail'])) {
 	<script src="js/gmap3.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/products.js"></script>
+	<script src="js/cart.js"></script>
 </body>
 
 </html>

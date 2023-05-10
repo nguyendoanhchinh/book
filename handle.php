@@ -141,16 +141,19 @@ while ($row = mysqli_fetch_assoc($query)) { ?>
                 <span class="tg-bookwriter" style="margin-top: 38px;">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
                 <span class="tg-stars"><span></span></span>
                 <span class="tg-bookprice">
-                    <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
+                    <ins><?php echo  number_format(($row['s_gia'])-(($row['s_gia'])*($row['s_giamgia']))/100);  ?>₫</ins>
                     <del><?php echo number_format($row['s_giamgia']); ?>%</del>
                 </span>
-                <a class="tg-btn tg-btnstyletwo" href="#">
+               
+                <button data-toggle="modal" data-target="#myModal"  id="add_products" class="tg-btn tg-btnstyletwo " s_id="<?php echo $row['s_id']; ?>" 
+                     s_price="<?php echo $row['s_gia']; ?>" s_sl="1"  >
                     <i class="fa fa-shopping-basket"></i>
-                    <em>Thêm giỏ hàng</em>
-                </a>
+                    <em >Thêm giỏ hàng</em>
+                </button>  
             </div>
         </div>
     </div>
+    
 <?php } ?>
 <div class="tg-products">
     <nav aria-label="Page navigation example" style="padding-left: 23%;

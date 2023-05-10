@@ -11,7 +11,7 @@ session_start();
     <title>Book Library</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -86,10 +86,10 @@ session_start();
                                                 <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
                                                 <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                             </span>
-                                            <a class="tg-btn tg-btnstyletwo" href="productdetail.php">
+                                            <!-- <a class="tg-btn tg-btnstyletwo" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
                                                 <i class="fa fa-shopping-basket"></i>
                                                 <em style="font-size: 12px;">Thêm giỏ hàng</em>
-                                            </a>
+                                            </a> -->
                                         </div>
                                     </div>
                                 </div>
@@ -105,11 +105,18 @@ session_start();
         </section>
 
         <section>
+
             <div class="tg-productgrid">
                 <div class="container ">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="tg-sectionhead">
+                            <h2>Sách nổi bật</h2>
+
+                        </div>
+                    </div>
                     <?php
                     $sql = "SELECT * from sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
-                    INNER JOIN theloai ON sach.tl_id = theloai.tl_id    limit 20";
+                    INNER JOIN theloai ON sach.tl_id = theloai.tl_id order by rand()   limit 20";
                     $query = mysqli_query($conn, $sql);
                     while ($row = mysqli_fetch_assoc($query)) { ?>
                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mt-5">
@@ -138,10 +145,14 @@ session_start();
                                         <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
                                         <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                     </span>
-                                    <a class="tg-btn tg-btnstyletwo" href="#">
-                                        <i class="fa fa-shopping-basket"></i>
-                                        <em>Thêm giỏ hàng</em>
-                                    </a>
+                                    <!-- <form action="">
+                                        <a class="tg-btn tg-btnstyletwo" href="cart.php?id=<?php //echo $row['s_id']; ?>">
+                                            <i class="fa fa-shopping-basket"></i>
+                                            <em>Thêm giỏ hàng</em>
+                                        </a>
+                                    </form> -->
+                                    
+
                                 </div>
                             </div>
                         </div>
@@ -172,7 +183,7 @@ session_start();
                         while ($row = mysqli_fetch_assoc($query)) { ?>
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 hidden-sm hidden-xs">
                                 <figure><img src="images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="image description"></figure>
-                                <a class="tg-btnaddtowishlist"  href="productdetail.php?id=<?php echo $row['s_id']; ?>">
+                                <a class="tg-btnaddtowishlist" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
                                     <i class="icon-heart"></i>
                                     <span>Chi tiết</span>
                                 </a>
@@ -190,10 +201,10 @@ session_start();
                                             <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
                                             <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                         </span>
-                                        <a class="tg-btn tg-btnstyletwo tg-active">
+                                        <!-- <a class="tg-btn tg-btnstyletwo tg-active">
                                             <i class="fa fa-shopping-basket"></i>
                                             <em>Thêm giỏ hàng</em>
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </div>
                             </div>
@@ -329,24 +340,24 @@ session_start();
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="tg-sectionhead">
                             <h2>Một số cuốn sách hay</h2>
-                           
+
                         </div>
                     </div>
                     <div id="tg-pickedbyauthorslider" class="tg-pickedbyauthor tg-pickedbyauthorslider owl-carousel">
-                    <?php
-                                    $sql = "SELECT * from sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
+                        <?php
+                        $sql = "SELECT * from sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
 								INNER JOIN theloai ON sach.tl_id = theloai.tl_id   limit 3";
-                                    $query = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_assoc($query)) { ?>
-                        <div class="item">
-                            <div class="tg-postbook">
-                                <figure class="tg-featureimg">
-                                    <div class="tg-bookimg">
-                                    <div class="tg-frontcover"><img src="images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="image description"></div>
-                                    </div>
-                                    <div class="tg-hovercontent">
-                                        <div class="tg-description">
-                                        <p style="width: 517px;
+                        $query = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_assoc($query)) { ?>
+                            <div class="item">
+                                <div class="tg-postbook">
+                                    <figure class="tg-featureimg">
+                                        <div class="tg-bookimg">
+                                            <div class="tg-frontcover"><img src="images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="image description"></div>
+                                        </div>
+                                        <div class="tg-hovercontent">
+                                            <div class="tg-description">
+                                                <p style="width: 517px;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 20px;
@@ -354,26 +365,26 @@ session_start();
     display: -webkit-box;
     -webkit-box-orient: vertical;	"><?php echo $row['mota'] ?></p>
 
+                                            </div>
+                                            <strong class="tg-bookpage">Số trang:<?php echo $row['sotrang'] ?></strong>
+                                            <strong class="tg-bookcategory">Tác giả:<?php echo $row['tl_ten'] ?></strong>
+                                            <strong class="tg-bookprice">Gia: <?php echo number_format($row['s_gia']);  ?></strong>
+                                            <div class="tg-ratingbox"><span class="tg-stars"><span></span></span>
+                                            </div>
                                         </div>
-                                        <strong class="tg-bookpage">Số trang:<?php echo $row['sotrang'] ?></strong>
-                                        <strong class="tg-bookcategory">Tác giả:<?php echo $row['tl_ten'] ?></strong>
-                                        <strong class="tg-bookprice">Gia: <?php echo number_format($row['s_gia']);  ?></strong>
-                                        <div class="tg-ratingbox"><span class="tg-stars"><span></span></span>
+                                    </figure>
+                                    <div class="tg-postbookcontent">
+                                        <div class="tg-booktitle">
+                                            <h3><a><?php echo $row['s_ten'] ?>n</a></h3>
                                         </div>
+                                        <span class="tg-bookwriter">Tác giả: <a><?php echo $row['tg_ten'] ?></a></span>
+                                        <a class="tg-btn tg-btnstyletwo" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
+                                            
+                                            <em>Chi tiết</em>
+                                        </a>
                                     </div>
-                                </figure>
-                                <div class="tg-postbookcontent">
-                                    <div class="tg-booktitle">
-                                        <h3><a><?php echo $row['s_ten'] ?>n</a></h3>
-                                    </div>
-                                    <span class="tg-bookwriter">Tác giả: <a><?php echo $row['tg_ten'] ?></a></span>
-                                    <a class="tg-btn tg-btnstyletwo" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
-                                        <i class="fa fa-shopping-basket"></i>
-                                        <em>Thêm giỏ hàng</em>
-                                    </a>
                                 </div>
                             </div>
-                        </div>
                         <?php } ?>
                     </div>
                 </div>

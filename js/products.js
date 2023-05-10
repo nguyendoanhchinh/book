@@ -98,18 +98,18 @@ $(document).on('click', '#parent li', function(e) {
     var action = "theloai";
     var id_category = $(this).attr('data-value');
     var current_page = 1;
-    $.ajax({
-        type: "POST",
-        url: "handle.php",
-        data: { action: action, id_category: id_category, current_page: current_page },
-        success: function(data) {
-            if (window.location.pathname.endsWith('products.php')) {
+    if (window.location.pathname.endsWith('products.php')) {
+        $.ajax({
+            type: "POST",
+            url: "handle.php",
+            data: { action: action, id_category: id_category, current_page: current_page },
+            success: function(data) {
                 $('#data_search').html(data);
-            } else {
-                window.location.href = 'products.php?category=' + id_category;
             }
-        }
-    });
+        });
+    } else {
+        window.location.href = 'products.php';
+    }
 });
 $(document).ready(function() {
     if (window.location.search) {
@@ -117,7 +117,8 @@ $(document).ready(function() {
         var id_category = urlParams.get('category');
         $('#parent li[data-value="' + id_category + '"]').trigger('click');
     }
-})
+});
+
 
 $(document).on('submit', '#search_form', function(e) {
     e.preventDefault();
