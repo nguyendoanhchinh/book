@@ -368,14 +368,14 @@ session_start();
                                             </div>
                                             <strong class="tg-bookpage">Số trang:<?php echo $row['sotrang'] ?></strong>
                                             <strong class="tg-bookcategory">Tác giả:<?php echo $row['tl_ten'] ?></strong>
-                                            <strong class="tg-bookprice">Gia: <?php echo number_format($row['s_gia']);  ?></strong>
+                                            <strong class="tg-bookprice">Giá: <?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100)  ?>₫</strong>
                                             <div class="tg-ratingbox"><span class="tg-stars"><span></span></span>
                                             </div>
                                         </div>
                                     </figure>
                                     <div class="tg-postbookcontent">
                                         <div class="tg-booktitle">
-                                            <h3><a><?php echo $row['s_ten'] ?>n</a></h3>
+                                            <h3><a><?php echo $row['s_ten'] ?></a></h3>
                                         </div>
                                         <span class="tg-bookwriter">Tác giả: <a><?php echo $row['tg_ten'] ?></a></span>
                                         <a class="tg-btn tg-btnstyletwo" href="productdetail.php?id=<?php echo $row['s_id']; ?>">

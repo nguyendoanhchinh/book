@@ -76,7 +76,7 @@ $(document).on('click', '.delete_product', function(e) {
         });
     });
 });
-// xóa tất cả sản phẩm
+// xóa sản phẩm check box
 $(document).on('click', '#delete_all', function(e) {
     e.preventDefault();
 
@@ -86,27 +86,43 @@ $(document).on('click', '#delete_all', function(e) {
     // Xử lý xóa tất cả dữ liệu khi người dùng nhấn "Xác nhận"
     $('#confirm-delete-btn').on('click', function() {
         var action = "delete_all";
-        $.ajax({
-            type: "POST",
-            url: "add-to-cart.php",
-            data: {
-                action: action
-            },
-            success: function(data) {
-                location.reload();
-            }
-        });
+        var namecheckbox = $('input.checkbox-products:checked').map(function() {
+            return $(this).val();
+        }).get();
+
+        if (namecheckbox.length > 0) {
+            $.ajax({
+                type: "POST",
+                url: "add-to-cart.php",
+                data: {
+                    action: action,
+                    namecheckbox: namecheckbox
+                },
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        }
+
     });
 });
-jQuery('em.minus').on('click', function() {
-    var currentVal = parseInt(jQuery('#number').val(), 10);
-    if (currentVal > 0) {
-        jQuery('#number').val(currentVal - 1);
-    }
-});
-jQuery('em.plus').on('click', function() {
-    var currentVal = parseInt(jQuery('#number').val(), 10);
-    if (currentVal < 100) {
-        jQuery('#number').val(currentVal + 1);
-    }
+$(document).ready(function() {
+    $("#checkbox-all-products").click(function() {
+        if ($(this).is(':checked')) {
+            $('.checkbox-products').prop('checked', true);
+        } else {
+            $('.checkbox-products').prop('checked', false);
+        }
+    });
+
+    $('.checkbox-products').click(function() {
+        var allChecked = true;
+        $('.checkbox-products').each(function() {
+            if (!$(this).is(':checked')) {
+                allChecked = false;
+                return false; // Thoát khỏi vòng lặp nếu có một ô checkbox không được chọn
+            }
+        });
+        $('#checkbox-all-products').prop('checked', allChecked);
+    });
 });

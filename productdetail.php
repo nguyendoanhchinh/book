@@ -154,20 +154,17 @@ if (!isset($_GET['productdetail'])) {
 																			} ?></em></span></li>
 															</ul>
 															<div class="tg-quantityholder">
-																<em class="minus">-</em>
-																<input type="text" class="result pqty" value="0" name="quantity" id="quantity1">
-																<em class="plus">+</em>
+																
+																<input type="number" class="result pqty" value="1" min="1" oninput="validity.valid||(value='');" name="quantity" id="quantity1">
+																
 															</div>
 
 															<input type="hidden" class="pid" value="<?php echo $row['s_id']; ?>">
 															<input type="hidden" class="pname" value="<?php echo $row['s_ten']; ?>">
-															<input type="hidden" class="pprice" value="<?php echo $row['s_gia']; ?>">
+															<input type="hidden" class="pprice" value="<?php echo ($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100; ?>">
 															<input type="hidden" class="pimage" value="<?php echo $row['anh']; ?>">
 
-
-															<button data-toggle="modal" data-target="#myModal" <?php if ($row['soluong'] == 0) {
-																													echo 'disabled';
-																												} ?> type="submit" class="btn tg-btn tg-active tg-btn-lg add-to-cart" id="<?php echo $row['s_id']; ?>" value="">Thêm giỏ hàng</button>
+															<button data-toggle="modal" data-target="#myModal"  type="submit" class="btn tg-btn tg-active tg-btn-lg add-to-cart" id="<?php echo $row['s_id']; ?>" value="">Thêm giỏ hàng</button>
 
 
 														</div>
@@ -305,8 +302,8 @@ if (!isset($_GET['productdetail'])) {
 																		<span class="tg-bookwriter" style="margin-top: 38px;">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
 																		<span class="tg-stars"><span></span></span>
 																		<span class="tg-bookprice">
-																			<ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
-																			<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
+																		<ins><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100)  ?>₫</ins>
+																<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
 																		</span>
 																		<!-- <a class="tg-btn tg-btnstyletwo" href="#">
 																			<i class="fa fa-shopping-basket"></i>

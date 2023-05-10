@@ -146,7 +146,7 @@ while ($row = mysqli_fetch_assoc($query)) { ?>
                 </span>
                
                 <button data-toggle="modal" data-target="#myModal"  id="add_products" class="tg-btn tg-btnstyletwo " s_id="<?php echo $row['s_id']; ?>" 
-                     s_price="<?php echo $row['s_gia']; ?>" s_sl="1"  >
+                     s_price="<?php echo ($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 ?>" s_sl="1"  >
                     <i class="fa fa-shopping-basket"></i>
                     <em >Thêm giỏ hàng</em>
                 </button>  

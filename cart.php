@@ -133,7 +133,7 @@ include "database/connect.php";
                                     <div class="header-cart-item">
                                         <div style="display: flex;background: #e8e8e8;color: #646464;height: 33px;border-radius: 8px;align-items: center;">
                                             <div class="checkbox-all-product ">
-                                                <input style="margin-left: 10px;" class="checkbox-add-cart" type="checkbox" id="checkbox-all-products" onclick="cart.checkAllProducts()">
+                                                <input style="margin-left: 10px;" class="checkbox-add-cart" type="checkbox" id="checkbox-all-products" >
                                             </div>
                                             <?php
                                             $sql = "SELECT count(*) as count from giohang";
@@ -156,9 +156,7 @@ include "database/connect.php";
 
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
-                                                    <td> <input <?php if ($row['trangthai'] == 1) {
-                                                                    echo 'checked';
-                                                                } ?> type="checkbox" id="checkbox-all-products"></td>
+                                                    <td> <input  type="checkbox" name="chk_id[]" class="checkbox-products" value="<?= $row['s_id']; ?>"></td>
                                                     <td>
                                                         <a href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="thumb"><img src="images/Image/VanHoc/<?= $row['anh'] ?>" alt=""></a>
                                                     </td>
@@ -168,14 +166,14 @@ include "database/connect.php";
 
                                                     <td><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100); ?></td>
                                                          
-                                                    <td> <div class="tg-quantityholder">
-																<em class="minus">-</em>  
+                                                    <td> <div class="tg-quantityholder" style="margin-left: 25%; width: 50%;float: left;">
+																  
                                                                 <input id="number" oninput="validity.valid||(value='');" type="number" min="1" name="num-order" value="<?= number_format($row['gh_soluong']); ?>" class="num-order">
-                                                                <em class="plus">+</em>
+                                                               
 															</div>
                                                             </td>
                                                     
-                                                    <td><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100); ?></td>
+                                                    <td><?= number_format(($row['tongtien']) ); ?></td>
 
                                                     
                                                     <td class="delete_product" data-id="<?= $row['s_id'] ?>">
@@ -184,7 +182,8 @@ include "database/connect.php";
 
                                                     <input type="hidden" product_id="<?= $row['s_id'] ?>" id="product_detail">
                                                 </tr>
-                                            <?php    }
+                                            <?php   
+                                             }
                                             ?>
                                         </tbody>
                                 </table>

@@ -78,25 +78,34 @@
                                     </div>
                                     <div class="tg-widgetcontent">
                                         <ul>
-                                            <li><a href="javascript:void(0);">Terms of Use</a></li>
-                                            <li><a href="javascript:void(0);">Terms of Sale</a></li>
-                                            <li><a href="javascript:void(0);">Returns</a></li>
-                                            <li><a href="javascript:void(0);">Privacy</a></li>
-                                            <li><a href="javascript:void(0);">Cookies</a></li>
-                                            <li><a href="javascript:void(0);">Contact Us</a></li>
-                                            <li><a href="javascript:void(0);">Our Affiliates</a></li>
-                                            <li><a href="javascript:void(0);">Vision &amp; Aim</a></li>
+                                            <li><a href="javascript:void(0);"> Tuyển dụng</a></li>
+                                            <li><a href="javascript:void(0);">Chính sách bảo mật thanh toán</a></li>
+                                            <li><a href="javascript:void(0);">Chính sách bảo mật thông tin cá nhân</a></li>
+                                            <li><a href="javascript:void(0);">Chính sách giải quyết khiếu nại</a></li>
+                                            <li><a href="javascript:void(0);">Điều khoản sử dụng</a></li>
+                                            <li><a href="javascript:void(0);">Bán hàng doanh nghiệp</a></li>
+                                            <li><a href="javascript:void(0);">Điều kiện vận chuyển</a></li>
+                               
                                         </ul>
                                         <ul>
-                                            <li><a href="javascript:void(0);">Our Story</a></li>
-                                            <li><a href="javascript:void(0);">Meet Our Team</a></li>
-                                            <li><a href="javascript:void(0);">FAQ</a></li>
-                                            <li><a href="javascript:void(0);">Testimonials</a></li>
-                                            <li><a href="javascript:void(0);">Join Our Team</a></li>
+                                            <li><a href="javascript:void(0);">Phương thức vận chuyển</a></li>
+                                            <li><a href="javascript:void(0);">Chính sách đổi trả</a></li>
+                                            <li><a href="javascript:void(0);">Chính sách hàng nhập khẩu</a></li>
+                                            <li><a href="javascript:void(0);">Hướng dẫn trả góp</a></li>
+                                            <li><a href="javascript:void(0);">Chính sách hàng nhập khẩu</a></li>
+                                            <li><a href="javascript:void(0);">Gửi Astra nhận Xu mua sắm thả ga</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
+                      
+
+
+
+
+
+
+
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <div class="tg-footercol tg-widget tg-widgettopsellingauthors">
                                     <div class="tg-widgettitle">
