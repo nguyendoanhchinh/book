@@ -126,3 +126,56 @@ $(document).ready(function() {
         $('#checkbox-all-products').prop('checked', allChecked);
     });
 });
+
+
+$(document).ready(function() {
+    $(document).on('change', '.num-order', function(e) {
+        e.preventDefault();
+        var action = "change_price";
+        var changequantity = $(this).val();
+        var id_product = $(this).closest('tr').find('#product_detail').attr('product_id');
+        var price_product = $(this).closest('tr').find('#product_price').attr('product_price');
+
+        $.ajax({
+            type: "POST",
+            url: "add-to-cart.php",
+            data: {
+                action: action,
+                changequantity: changequantity,
+                id_product: id_product,
+                price_product: price_product
+            },
+            success: function(data) {
+                if (data) {
+                    $('.modal-body').html(data);
+                    $('#myModal').modal('show');
+                } else {
+                    // Tải lại phần HTML giỏ hàng
+                    $('.loadAll').load(window.location.href + ' .loadAll');
+                    sumAllPrice();
+                }
+            }
+        });
+    });
+});
+
+
+//tổng tiền 
+
+function sumAllPrice() {
+    var action = 'tongtien';
+
+
+    $.ajax({
+        url: "add-to-cart.php",
+        type: "POST",
+        data: {
+            action: action,
+
+        },
+        success: function(response) {
+            $("#total-price span").text(response);
+        }
+    });
+};
+sumAllPrice();

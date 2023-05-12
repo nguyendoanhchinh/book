@@ -103,10 +103,10 @@ session_start();
 																		<ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
 																		<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
 																	</span>
-																	<a class="tg-btn tg-btnstyletwo tg-active  add-to-cart" href="#">
-																		<i class="fa fa-shopping-basket"></i>
-																		<em s_id="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_price="<?php echo $row['s_gia']; ?>" s_anh="<?php echo $row['anh']; ?>" s_sl="1">Thêm giỏ hàng</em>
-																	</a>
+																	<a class="tg-btn tg-btnstyletwo tg-active" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
+																
+																	<em>Chi tiết</em>
+																</a>
 																</div>
 															</div>
 														</div>

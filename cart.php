@@ -61,11 +61,11 @@ include "database/connect.php";
         border: 1px solid #c5c5c5;
         padding: 10px 15px;
         margin-right: 5px;
-       
+
         border-radius: 3px;
         font-size: 20px;
-    border-radius: 3px;
-    padding: 10px 21px;
+        border-radius: 3px;
+        padding: 10px 21px;
     }
 
     .header-cart-item {
@@ -74,7 +74,9 @@ include "database/connect.php";
 
         border-radius: 8px;
         padding: 10px 0;
-    }a{
+    }
+
+    a {
         color: rgb(36, 36, 36);
     }
 </style>
@@ -126,17 +128,18 @@ include "database/connect.php";
                     <div class="section" id="breadcrumb-wp">
 
                     </div>
-                    <div id="wrapper" class="wp-inner clearfix">
+                    <div id="wrapper" class="wp-inner clearfix loadAll">
                         <div class="section" id="info-cart-wp">
                             <div class="section-detail table-responsive">
                                 <table class="table" border="0" cellpadding="0" cellspacing="0">
                                     <div class="header-cart-item">
                                         <div style="display: flex;background: #e8e8e8;color: #646464;height: 33px;border-radius: 8px;align-items: center;">
                                             <div class="checkbox-all-product ">
-                                                <input style="margin-left: 10px;" class="checkbox-add-cart" type="checkbox" id="checkbox-all-products" >
+                                                <input style="margin-left: 10px;" class="checkbox-add-cart" type="checkbox" id="checkbox-all-products">
                                             </div>
                                             <?php
-                                            $sql = "SELECT count(*) as count from giohang";
+                                            $k_id=$_SESSION['k_id'];
+                                            $sql = "SELECT count(*) as count from giohang where k_id=$k_id";
                                             $query = mysqli_query($conn, $sql);
                                             $row = mysqli_fetch_assoc($query);
                                             ?>
@@ -150,13 +153,13 @@ include "database/connect.php";
                                         </div>
                                         <tbody id="cart-items">
                                             <?php
-
-                                            $sql = "SELECT * FROM giohang inner join sach on giohang.s_id=sach.s_id ";
+                                                $k_id=$_SESSION['k_id'];
+                                            $sql = "SELECT * FROM giohang inner join sach on giohang.s_id=sach.s_id  where k_id =  $k_id";
                                             $query = mysqli_query($conn, $sql);
 
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
-                                                    <td> <input  type="checkbox" name="chk_id[]" class="checkbox-products" value="<?= $row['s_id']; ?>"></td>
+                                                    <td> <input type="checkbox" name="chk_id[]" class="checkbox-products" value="<?= $row['s_id']; ?>"></td>
                                                     <td>
                                                         <a href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="thumb"><img src="images/Image/VanHoc/<?= $row['anh'] ?>" alt=""></a>
                                                     </td>
@@ -164,29 +167,40 @@ include "database/connect.php";
                                                         <a href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="name-product "><?= $row['s_ten'] ?></a>
                                                     </td>
 
-                                                    <td><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100); ?></td>
-                                                         
-                                                    <td> <div class="tg-quantityholder" style="margin-left: 25%; width: 50%;float: left;">
-																  
-                                                                <input id="number" oninput="validity.valid||(value='');" type="number" min="1" name="num-order" value="<?= number_format($row['gh_soluong']); ?>" class="num-order">
-                                                               
-															</div>
-                                                            </td>
-                                                    
-                                                    <td><?= number_format(($row['tongtien']) ); ?></td>
+                                                    <td><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100); ?>đ</td>
+                                                 
+                                                    <td>
+                                                        <div class="tg-quantityholder" style="margin-left: 25%; width: 50%;float: left;">
+                                                            <input  id="number" oninput="validity.valid||(value='');" type="number" min="1" name="num-order" value="<?= number_format($row['gh_soluong']); ?>" class="num-order">
 
-                                                    
+                                                        </div>
+                                                    </td>
+
+                                                    <td><?= number_format(($row['tongtien'])); ?>đ</td>
+
+
                                                     <td class="delete_product" data-id="<?= $row['s_id'] ?>">
                                                         <a href="" title="" class="del-product"><i style="font-size: 21px; color:black" class="fa fa-trash-o"></i></a>
                                                     </td>
 
                                                     <input type="hidden" product_id="<?= $row['s_id'] ?>" id="product_detail">
+                                                    <input type="hidden" product_price="<?= ($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 ?>" id="product_price">
                                                 </tr>
-                                            <?php   
-                                             }
+                                            <?php
+                                            }
                                             ?>
                                         </tbody>
                                 </table>
+                                <!-- Modal thông báo-->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content" style="margin-top: 50%;">
+                                            <div class="modal-body">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <!-- modal xóa -->
                                 <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -198,8 +212,8 @@ include "database/connect.php";
                                                 </button>
                                             </div>
                                             <div class="modal-body" style="font-size: 20px;">
-                                           
-                                              Bạn có muốn xóa sản phẩm đang chọn không ?
+
+                                                Bạn có muốn xóa sản phẩm đang chọn không ?
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -208,10 +222,11 @@ include "database/connect.php";
                                         </div>
                                     </div>
                                 </div>
-                              
+
+
                                 <div style="margin-left:86%;padding:20px 0px;">
-                                    <div class="clearfix " style="    color: black;">
-                                        <p id="total-price" class="fl-left ">Tổng tiền: <span>12.000.000đ</span></p>
+                                    <div class="clearfix " style="color: black;">
+                                        <p id="total-price" class="fl-left ">Tổng tiền: <span></span> đ</p>
                                     </div>
                                     <div class="clearfix">
                                         <div class="fl-right">

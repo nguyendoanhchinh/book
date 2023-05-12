@@ -10,7 +10,7 @@ include "database/connect.php";
     
     <style>
 .img-user a img{
-    border-radius: 50%;width: 50px;
+    border-radius: 50%;width: 50%;
     height: 50px;
 
 }
@@ -39,8 +39,9 @@ include "database/connect.php";
                         <div class="dropdown tg-themedropdown tg-minicartdropdown" style="padding-top: 10px;">
                             <a href="../cart.php" id="tg-minicart" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php   
-
-                                                $sql= "SELECT count(*) as count from giohang";
+                                                $k_id=$_SESSION['k_id'];
+                                                $sql = "SELECT count(*) as count from giohang where k_id=$k_id";
+                                                
                                                 $query =mysqli_query($conn,$sql);
                                                 $row = mysqli_fetch_assoc($query);
                                             ?>   

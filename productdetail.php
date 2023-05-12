@@ -110,9 +110,9 @@ if (!isset($_GET['productdetail'])) {
 																	<ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
 																	<del><?php echo number_format($row['s_giamgia']);  ?>%</del>
 																</span>
-																<a class="tg-btn tg-btnstyletwo tg-active" href="#">
-																	<i class="fa fa-shopping-basket"></i>
-																	<em>Thêm giỏ hàng</em>
+																<a class="tg-btn tg-btnstyletwo tg-active" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
+																
+																	<em>Chi tiết</em>
 																</a>
 															</div>
 														</div>
