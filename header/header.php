@@ -10,7 +10,7 @@ include "database/connect.php";
     
     <style>
 .img-user a img{
-    border-radius: 50%;width: 50%;
+    border-radius: 50%;width: auto;
     height: 50px;
 
 }
@@ -26,7 +26,7 @@ include "database/connect.php";
                                     <a href="index.php"  id="tg-wishlisst" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img style="    position: absolute;
     margin-left: -46px;
     top: 10;
-    height: 39px;
+    height: 44px;
 }"  src="images/image/avatar/<?php echo $_SESSION['k_avatar'] ?>" alt="image description">  
                                     <span style="padding-top: 10px;"><?php echo ($_SESSION['k_email']) ?></span>
                                     </a>
@@ -52,6 +52,7 @@ include "database/connect.php";
                           
                             
                         </div>
+                        
                     </div>
                     <div class="tg-searchbox">
                         <form class="tg-formtheme tg-formsearch" id="search_form">
@@ -94,10 +95,10 @@ include "database/connect.php";
                                 </li>
                                
                                 <li class="menu-item-has-children" style="margin-right: 50px;">
-                                    <a href="#">Tác giả</a>
+                                    <a href="cart.php">Giỏ hàng</a>
                                     <ul class="sub-menu">
-                                        <li><a href="authors.php">Các Tác giả</a></li>
-                                        <li><a href="authordetail.php">Chi tiết tác giả</a></li>
+                                        <li><a href="cart.php">Giỏ hàng</a></li>
+                                        <li><a href="checkout.php">Đặt hàng</a></li>
                                     </ul>
                                 </li>
                               

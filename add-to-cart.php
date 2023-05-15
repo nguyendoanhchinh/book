@@ -91,12 +91,11 @@ if ($action == 'delete_all') {
 }
 
 
-//thay đổi số lượng sản phẩm và giá tiền
+// Thay đổi số lượng sản phẩm và giá tiền
 if ($action === 'change_price') {
     $changequantity = $_POST['changequantity'];
     $id_product = $_POST['id_product'];
     $price_product = $_POST['price_product'];
-    $total = $price_product * $changequantity;
 
     $check_soluong = "SELECT soluong FROM sach WHERE s_id='$id_product'";
     $check_soluong_query = mysqli_query($conn, $check_soluong);
@@ -105,25 +104,24 @@ if ($action === 'change_price') {
     if ($row['soluong'] < $changequantity) {
         echo "<h3 style='text-align: center;color:#c51919;'>Số lượng chỉ còn (" . $row['soluong'] . ") sản phẩm</h3>";
     } else {
+        $total = $price_product * $changequantity;
         $sql = "UPDATE giohang SET gh_soluong=$changequantity, tongtien=$total WHERE s_id=$id_product";
         $query = mysqli_query($conn, $sql);
     }
 }
-//tính tổng tiền  các sản phẩm
+
+// Tính tổng tiền của các sản phẩm
 if ($action == 'tongtien') {
-    if ($action == 'tongtien') {
-       
-        $id = $_SESSION['k_id'];
+    $id = $_SESSION['k_id'];
+    $selectedIds = $_POST['selectedIds'];
+    $selectedIdsString = implode(',', $selectedIds);
 
-   
-        $id = $_SESSION['k_id'];
-
-        $sql = "SELECT SUM(tongtien) AS 'tongtien' FROM giohang WHERE k_id = $id";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($result);
-
-        echo number_format($row['tongtien']);
-
-       
-    }
+    $sql = "SELECT SUM(tongtien) AS 'tongtien' FROM giohang WHERE k_id = $id AND s_id IN ($selectedIdsString)";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    echo number_format($row['tongtien']);
 }
+
+
+
+
