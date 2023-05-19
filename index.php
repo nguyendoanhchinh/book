@@ -83,7 +83,7 @@ session_start();
                                             <span class="tg-bookwriter" style="margin-top: 55px; ">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
                                             <span class="tg-stars"><span></span></span>
                                             <span class="tg-bookprice">
-                                                <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
+                                                <ins><?php echo  number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 )  ?>vnđ</ins>
                                                 <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                             </span>
                                             <!-- <a class="tg-btn tg-btnstyletwo" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
@@ -142,7 +142,7 @@ session_start();
                                     <span class="tg-bookwriter" style="margin-top: 38px;">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
                                     <span class="tg-stars"><span></span></span>
                                     <span class="tg-bookprice">
-                                        <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
+                                        <ins><?php echo number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 )  ?>vnđ</ins>
                                         <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                     </span>
                                     <!-- <form action="">
@@ -198,7 +198,7 @@ session_start();
                                     <span class="tg-stars"><span></span></span>
                                     <div class="tg-priceandbtn" style="margin: 45px -70px;">
                                         <span class="tg-bookprice">
-                                            <ins><?php echo number_format($row['s_gia']);  ?>vnđ</ins>
+                                            <ins><?php echo number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 )  ?>vnđ</ins>
                                             <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                         </span>
                                         <!-- <a class="tg-btn tg-btnstyletwo tg-active">

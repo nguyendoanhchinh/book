@@ -198,14 +198,14 @@ session_start();
                                                 </div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="s_theloai" class="form-label">Thể loại</label>
-                                                <select id="s_theloai" class="form-select" aria-label="Default select example">
+                                                <label for="s_theloai" class="form-label" >Thể loại</label>
+                                                <select id="s_theloai" class="form-select" aria-label="Default select example" >
                                                     <?php
                                                     $sql = "select * from theloai";
                                                     $query = mysqli_query($conn, $sql);
                                                     while ($row = mysqli_fetch_assoc($query)) {
                                                     ?>
-                                                        <option value="<?php echo $row['tl_id'] ?>"><?php echo $row['tl_ten'] ?></option>
+                                                        <option disabled value="<?php echo $row['tl_id'] ?>"><?php echo $row['tl_ten'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -250,9 +250,19 @@ session_start();
                                 $total_page = ceil($total / $limit);
                                 // Tìm trang đầu
                                 $start = ($current_page - 1) * $limit;
-                                $sql = "SELECT * from sach  INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
-                                INNER JOIN theloai ON sach.tl_id = theloai.tl_id limit  $start,$limit ";
+
+                               
+                                $sql = "SELECT s.*, tg.tg_ten, GROUP_CONCAT(CASE WHEN st.tl_id IS NOT NULL THEN tl.tl_ten ELSE theloai.tl_ten END SEPARATOR ', ') AS tl_ten
+                                FROM sach s
+                                INNER JOIN tacgia tg ON tg.tg_id = s.tg_id
+                                LEFT JOIN sach_theloai st ON st.s_id = s.s_id
+                                LEFT JOIN theloai ON theloai.tl_id = s.tl_id
+                                LEFT JOIN theloai tl ON tl.tl_id = st.tl_id
+                                GROUP BY s.s_id
+                                 limit  $start,$limit ";
+
                                 $query = mysqli_query($conn, $sql);
+
                                 while ($row = mysqli_fetch_assoc($query)) {
                                 ?>
                                     <tr>
@@ -274,19 +284,33 @@ session_start();
                                         <td><?php echo $row['soluong']; ?></td>
                                         <td><?php echo $row['ngonngu']; ?></td>
                                         <td><?php echo $row['tg_ten']; ?></td>
-                                        <td><?php echo $row['tl_ten']; ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-warning " id_update="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_gia="<?php echo $row['s_gia']; ?>" s_giamgia="<?php echo $row['s_giamgia']; ?>" nxb="<?php echo $row['nxb']; ?>" namxuatban="<?php echo $row['namxuatban']; ?>" sotrang="<?php echo $row['sotrang']; ?>" soluong="<?php echo $row['soluong']; ?>" ngonngu="<?php echo $row['ngonngu']; ?>" id="display" tacgia="<?php echo $row['tg_id'] ?>" theloai="<?php echo $row['tl_id'] ?>" data-bs-toggle="modal" data-bs-target="#displayModal">
+                                            <select class="form-select" aria-label="Default select example">
+                                                <?php
+                                                $genres = explode(',', $row['tl_ten']);
+                                                foreach ($genres as $genre) {
+                                                    echo "<option>$genre</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning" id_update="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_gia="<?php echo $row['s_gia']; ?>" s_giamgia="<?php echo $row['s_giamgia']; ?>" nxb="<?php echo $row['nxb']; ?>" namxuatban="<?php echo $row['namxuatban']; ?>" sotrang="<?php echo $row['sotrang']; ?>" soluong="<?php echo $row['soluong']; ?>" ngonngu="<?php echo $row['ngonngu']; ?>" id="display" tacgia="<?php echo $row['tg_id']; ?>" theloai="<?php echo $row['tl_id']; ?>" data-bs-toggle="modal" data-bs-target="#displayModal">
                                                 Sửa
                                             </button>
                                             <button type="button" class="btn btn-danger" id="delete" id_delete="<?php echo $row['s_id']; ?>">
                                                 Xóa
                                             </button>
                                         </td>
-                                    <?php  }
-                                    ?>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+
+
                             </tbody>
                         </table>
+
                         <nav aria-label="Page navigation example " id="pagination_book">
                             <ul class="pagination justify-content-end">
                                 <?php

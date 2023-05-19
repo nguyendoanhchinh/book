@@ -12,7 +12,13 @@ include "database/connect.php";
 .img-user a img{
     border-radius: 50%;width: auto;
     height: 50px;
-
+ 
+}
+  #oder:hover{
+    color: red;
+  }
+  #logout :hover{
+    color: red;
 }
     </style>
     <div class="tg-middlecontainer">
@@ -24,15 +30,17 @@ include "database/connect.php";
                         <div class="dropdown tg-themedropdown tg-wishlistdropdown img-user">
                        
                                     <a href="index.php"  id="tg-wishlisst" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img style="    position: absolute;
-    margin-left: -46px;
-    top: 10;
-    height: 44px;
-}"  src="images/image/avatar/<?php echo $_SESSION['k_avatar'] ?>" alt="image description">  
+                                    margin-left: -46px;
+                                    top: 10;
+                                    height: 44px;
+                                }"  src="images/image/avatar/<?php echo $_SESSION['k_avatar'] ?>" alt="image description">  
                                     <span style="padding-top: 10px;"><?php echo ($_SESSION['k_email']) ?></span>
                                     </a>
                                     <div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-wishlisst">
-                                        <div class="tg-description">
-                                        <span><a href="logout.php">Đăng xuất</a></span>
+                                        <div class="tg-description" style="height: 67px;">
+                                        <span id="oder" style="    padding: 10px 10px;font-size: 20px;"><a href="oder.php">Đơn mua</a></span><br>
+                                        <span id="logout" style="    padding: 10px 10px;font-size: 20px;position: absolute;"><a href="logout.php">Đăng xuất</a></span>
+                                        
                                         </div>
                                     </div>
                                 </div>
@@ -99,6 +107,7 @@ include "database/connect.php";
                                     <ul class="sub-menu">
                                         <li><a href="cart.php">Giỏ hàng</a></li>
                                         <li><a href="checkout.php">Đặt hàng</a></li>
+                                       
                                     </ul>
                                 </li>
                               

@@ -38,7 +38,7 @@ include "database/connect.php";
         display: table-cell;
         vertical-align: middle;
         text-align: center;
-        
+
     }
 
     #info-cart-wp table tbody tr td {
@@ -50,7 +50,7 @@ include "database/connect.php";
         display: table-cell;
         vertical-align: middle;
         text-align: center;
-      
+
     }
 
     #checkout-cart,
@@ -138,7 +138,7 @@ include "database/connect.php";
                                                 <input style="margin-left: 10px;" class="checkbox-add-cart" type="checkbox" id="checkbox-all-products">
                                             </div>
                                             <?php
-                                            $k_id=$_SESSION['k_id'];
+                                            $k_id = $_SESSION['k_id'];
                                             $sql = "SELECT count(*) as count from giohang where k_id=$k_id";
                                             $query = mysqli_query($conn, $sql);
                                             $row = mysqli_fetch_assoc($query);
@@ -153,47 +153,47 @@ include "database/connect.php";
                                         </div>
                                         <tbody id="cart-items">
                                             <?php
-                                                $k_id=$_SESSION['k_id'];
+                                            $k_id = $_SESSION['k_id'];
                                             $sql = "SELECT * FROM giohang inner join sach on giohang.s_id=sach.s_id  where k_id =  $k_id";
                                             $query = mysqli_query($conn, $sql);
-                                            if(mysqli_num_rows($query) > 0) {
-                                                while ($row = mysqli_fetch_assoc($query)) {?>
-                                                  <tr>
-                                                    <td> <input type="checkbox" name="chk_id[]" class="checkbox-products" value="<?= $row['s_id']; ?>"></td>
-                                                    <td>
-                                                        <a href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="thumb"><img src="images/Image/VanHoc/<?= $row['anh'] ?>" alt=""></a>
-                                                    </td>
-                                                    <td style="    width: 26%; box-sizing: border-box;">
-                                                        <a style="word-wrap: break-word;" href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="name-product "><?= $row['s_ten'] ?></a>
-                                                    </td>
+                                            if (mysqli_num_rows($query) > 0) {
+                                                while ($row = mysqli_fetch_assoc($query)) { ?>
+                                                    <tr>
+                                                        <td> <input type="checkbox" name="chk_id[]" class="checkbox-products" value="<?= $row['s_id']; ?>"></td>
+                                                        <td>
+                                                            <a href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="thumb"><img src="images/Image/VanHoc/<?= $row['anh'] ?>" alt=""></a>
+                                                        </td>
+                                                        <td style="    width: 26%; box-sizing: border-box;">
+                                                            <a style="word-wrap: break-word;" href="productdetail.php?id=<?php echo $row['s_id']; ?>" title="" class="name-product "><?= $row['s_ten'] ?></a>
+                                                        </td>
 
-                                                    <td><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100); ?>đ</td>
-                                                 
-                                                    <td>
-                                                        <div class="tg-quantityholder" style="margin-left: 25%; width: 50%;float: left;">
-                                                            <input  id="number" oninput="validity.valid||(value='');" type="number" min="1" name="num-order" value="<?= number_format($row['gh_soluong']); ?>" class="num-order">
+                                                        <td><?= number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100); ?>đ</td>
 
-                                                        </div>
-                                                    </td>
+                                                        <td>
+                                                            <div class="tg-quantityholder" style="margin-left: 25%; width: 50%;float: left;">
+                                                                <input id="number" oninput="validity.valid||(value='');" type="number" min="1" name="num-order" value="<?= number_format($row['gh_soluong']); ?>" class="num-order">
 
-                                                    <td class="loadproduct" data-id="<?= $row['s_id'] ?>"><?= number_format(($row['tongtien'])); ?>đ</td>
+                                                            </div>
+                                                        </td>
 
-                                                  
-                                                    <td class="delete_product" data-id="<?= $row['s_id'] ?>">
-                                                        <a href="" title="" class="del-product"><i style="font-size: 21px; color:black" class="fa fa-trash-o"></i></a>
-                                                    </td>
+                                                        <td class="loadproduct" data-id="<?= $row['s_id'] ?>"><?= number_format(($row['tongtien'])); ?>đ</td>
 
-                                                    <input type="hidden" product_id="<?= $row['s_id'] ?>" id="product_detail">
-                                                    <input type="hidden" product_price="<?= ($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 ?>" id="product_price">
-                                                </tr>
+
+                                                        <td class="delete_product" data-id="<?= $row['s_id'] ?>">
+                                                            <a href="" title="" class="del-product"><i style="font-size: 21px; color:black" class="fa fa-trash-o"></i></a>
+                                                        </td>
+
+                                                        <input type="hidden" product_id="<?= $row['s_id'] ?>" id="product_detail">
+                                                        <input type="hidden" product_price="<?= ($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 ?>" id="product_price">
+                                                    </tr>
 
                                                 <?php }
-                                            
-                                            
-                                            ?>
+
+
+                                                ?>
                                         </tbody>
                                 </table>
-                                <div style="margin-left:86%;padding:20px 0px;">
+                                <div style="margin-left:86%;padding-bottom:20px ;">
                                     <div class="clearfix " style="color: black;">
                                         <p id="total-price" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"></span> đ</p>
                                     </div>
@@ -203,70 +203,68 @@ include "database/connect.php";
                                         </div>
                                     </div>
                                 </div>
-                                <?php 
+                            <?php
                                             } else {
                                                 echo "<h2 style='text-align: center; padding:100px;'>Giỏ hàng của bạn đang trống</h2>";
-                                              
                                             }
-                                            
-                                            ?>
-                                <!-- Modal thông báo-->
-                                <div class="modal fade" id="myModal" role="dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content" style="margin-top: 50%;">
-                                            <div class="modal-body">
-                                            </div>
+                            ?>
+                            <!-- Modal thông báo-->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="margin-top: 50%;">
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modal-notify" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+
+                                        <div class="modal-body" style="font-size: 20px; font-size: 15px; align-items: center;text-align: center;background: rgba(0,0,0,0.8);color: white;">
+                                            Vui lòng chọn sản phẩm để xóa .
                                         </div>
 
                                     </div>
                                 </div>
-                                
-                                <div style="" class="modal fade" id="modal-notify" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            
-                                            <div class="modal-body" style="font-size: 20px; font-size: 15px; align-items: center;text-align: center;background: rgba(0,0,0,0.8);color: white;">
-                                            Vui lòng chọn sản phẩm để xóa .
-                                            </div>
-                                            
+                            </div>
+                            <!-- modal xóa -->
+                            <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirm-delete-modal-label"> <i class="fa fa-exclamation-triangle" style="color:rgb(252, 130, 10);"> </i> Xóa sản phẩm</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="font-size: 20px;">
+                                            Bạn có muốn xóa sản phẩm đang chọn không ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                            <button type="button" class="btn btn-danger" id="confirm-delete-btn">Xóa</button>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- modal xóa -->
-                                <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="confirm-delete-modal-label"> <i class="fa fa-exclamation-triangle" style="color:rgb(252, 130, 10);"> </i> Xóa sản phẩm</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" style="font-size: 20px;">
-                                                Bạn có muốn xóa sản phẩm đang chọn không ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Xóa</button>
-                                            </div>
+                            </div>
+                            <!-- modal xóa -->
+                            <div class="modal fade" id="modal-notify-checkout" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="margin-top: 50%;">
+
+                                        <div class="modal-body" style="font-size: 20px; align-items: center;text-align: center;font-weight: bolder;">
+                                            Bạn vẫn chưa chọn sản phẩm nào để mua.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK Đã Hiểu!</button>
+
                                         </div>
                                     </div>
                                 </div>
-                                   <!-- modal xóa -->
-                                <div style="" class="modal fade" id="modal-notify-checkout" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content" style="margin-top: 50%;">
-                                            
-                                            <div class="modal-body" style="font-size: 20px; align-items: center;text-align: center;font-weight: bolder;">
-                                                Bạn vẫn chưa chọn sản phẩm nào để mua.
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">OK Đã Hiểu!</button>
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
                             </div>
 
                         </div>
@@ -275,7 +273,7 @@ include "database/connect.php";
                     </div>
                 </div>
             </div>
-          
+
             <!--************************************
 					News Grid End
 			*************************************-->

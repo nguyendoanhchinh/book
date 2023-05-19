@@ -36,7 +36,7 @@ $(document).ready(function() {
                 url: "bookmodel.php",
                 data: { action: action, tentacgia: tentacgia, id: id },
                 success: function(data) {
-                    alert(data);
+
                     loadAuthor();
                     location.reload()
                     $('#modalAuthor').modal('hide');

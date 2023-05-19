@@ -53,7 +53,7 @@ include "database/connect.php";
 
     }
 
-    #checkout-cart,
+    #checkout,
     #update-cart {
         display: inline-block;
         background: rgb(255, 66, 78);
@@ -69,7 +69,7 @@ include "database/connect.php";
     }
 
     .header-cart-item {
-        background-color: white;
+
         margin-bottom: 10px;
 
         border-radius: 8px;
@@ -78,6 +78,16 @@ include "database/connect.php";
 
     a {
         color: rgb(36, 36, 36);
+    }
+
+    #deliveryAddress {
+        position: relative;
+        margin-left: 84%;
+        top: -49px;
+        padding: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        color: blue;
     }
 </style>
 
@@ -122,29 +132,33 @@ include "database/connect.php";
                 border-style: hidden !important;
             }
         </style>
-        <main id="tg-main" class="tg-main tg-haslayout" style="margin-top:30px;">
+        <main id="tg-main" class="tg-main tg-haslayout" style="padding-top:30px; background:#f5f5f5;">
             <div class="container">
                 <div id="main-content-wp" class="cart-page">
                     <div class="section" id="breadcrumb-wp" style="border-top: 2px solid;">
-                        <!-- <?php
-                                $k_id = $_SESSION['k_id'];
-                                $sql = "SELECT *
-                        FROM khach
-                         where k_id=$k_id;
-                        ";
-                                $query = mysqli_query($conn, $sql);
-                                $row = mysqli_fetch_assoc($query)
+                        <?php
+                        $k_id = $_SESSION['k_id'];
+                        $sql = "SELECT *
+                                FROM khach
+                                where k_id=$k_id;";
+                        $query = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($query)
 
-                                ?> -->
-                        <div class="info" style="margin-left:2%;">
+                        ?>
+                        <div class="info" style="    padding-left: 2%;background: #fff;">
                             <h3 style="color: coral;"><i class="fa fa-map-marker" aria-hidden="true"></i> Địa chỉ nhận hàng</h3>
-                            <p style="font-weight: 700;color: #222;font-size: 2rem;"><?php echo ($_SESSION['k_email']) ?>(+84) <?= ltrim($row['k_sdt'], 0) ?></p>
+                            <p style="font-weight: 700;color: #222;font-size: 2rem;"><?php echo ($row['k_ten']) ?>(+84) <?= ltrim($row['k_sdt'], 0) ?></p>
                             <p style="font-weight: 900;"><?= $row['k_diachi'] ?></p>
+                            <div id="deliveryAddress" id_k="<?= $_SESSION['k_id'] ?>" mail_k="<?= $row['k_email'] ?>" username_k="<?php echo ($row['k_ten']) ?>" addrees_k="<?= $row['k_diachi'] ?>" phone_k="<?= $row['k_sdt']; ?>">Chỉnh sửa</div>
+
+                        </div>
+                        <div>
+
                         </div>
                     </div>
                     <div id="wrapper" class="wp-inner clearfix ">
                         <div class="section" id="info-cart-wp">
-                            <div class="section-detail table-responsive" style="border-top: 2px solid;">
+                            <div class="section-detail table-responsive" style="margin-top:10px; margin-bottom: 50px; background:#fff">
 
                                 <table class="table" border="0" cellpadding="0" cellspacing="0">
                                     <div class="header-cart-item">
@@ -172,14 +186,9 @@ include "database/connect.php";
                                                     $id_product = $product["id_product"];
                                                     $price_product = $product["price_product"];
                                                     $quantity = $product["quantity"];
-
-                                                    // Retrieve product information from the database based on $id_product
-                                                    // Modify the query according to your database structure
                                                     $sql = "SELECT * FROM giohang INNER JOIN sach ON giohang.s_id = sach.s_id WHERE giohang.s_id = $id_product";
                                                     $query = mysqli_query($conn, $sql);
                                                     $row = mysqli_fetch_assoc($query);
-
-                                                    // Check if $row is not null before accessing its elements
                                                     if ($row) {
                                             ?>
 
@@ -217,71 +226,61 @@ include "database/connect.php";
                                             ?>
 
                                         </tbody>
-
-
-
-
                                     </div>
                                 </table>
-
-                                <div style="padding:20px 0px;">
-                                    <div style="padding:20px 0px; position: absolute;"> Lời nhắn : <input type="text"></div>
+                              
+                                <!-- Tổng tiền  -->
+                                <div style="padding:20px 0px;background: #f7fffe;">
+                                    <div  style="margin:20px 50px; position: absolute;"> Lời nhắn : <input  id="note" style="width: 40rem;" type="text" placeholder="Lưu ý cho người bán..."></div>
                                     <div class="clearfix " style="color: black; margin-left:86%;">
-                                        <p class="fl-left">Tổng tiền: <span id="total-price" style="color: red;font-size: 20px;"></span><?php if (isset($_POST["selectedProducts"])) {
-                                                                                                                                            echo number_format($totalPrice);
-                                                                                                                                        } else {
-                                                                                                                                            echo number_format($totalPrice);
-                                                                                                                                        }  ?> đ</p>
+                                        <p class="fl-left">Tổng tiền: <span id="total-price" style="color: red;font-size: 20px;"></span><?php if (isset($_POST["selectedProducts"])) {echo number_format($totalPrice);} else {echo number_format($totalPrice);}  ?> đ</p>
                                     </div>
                                     <div class="clearfix" style="margin-left:86%;">
                                         <div class="fl-right">
-                                            <a href="#" title="" id="checkout-cart">Đặt hàng</a>
+                                            <a href="#" title="" id="checkout">Đặt hàng</a>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Modal thông báo-->
-                                <!-- <div class="modal fade" id="myModal" role="dialog">
+                                <!-- thông báo -->
+                                <div class="modal fade" id="myModal_address" role="dialog">
                                     <div class="modal-dialog">
-                                        <div class="modal-content" style="margin-top: 50%;">
-                                            <div class="modal-body">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div> -->
-
-                                <!-- <div style="" class="modal fade" id="modal-notify" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            
-                                            <div class="modal-body" style="font-size: 20px; font-size: 15px; align-items: center;text-align: center;background: rgba(0,0,0,0.8);color: white;">
-                                            Vui lòng chọn sản phẩm để xóa .
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!-- modal xóa -->
-                                <!-- <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                                        <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="confirm-delete-modal-label"> <i class="fa fa-exclamation-triangle" style="color:rgb(252, 130, 10);"> </i> Xóa sản phẩm</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Địa Chỉ Của Tôi</h4>
                                             </div>
-                                            <div class="modal-body" style="font-size: 20px;">
-                                                Bạn có muốn xóa sản phẩm đang chọn không ?
+                                            <div class="modal-body">
+                                                <form>
+                                                    <input type="hidden" id="id_k">
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Email</label>
+                                                        <input type="text" class="form-control" id="email_k" disabled>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Họ và tên</label>
+                                                        <input type="text" class="form-control" id="username_k">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Số điện thoại</label>
+                                                        <input type="text" class="form-control" id="phone_k">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Địa chỉ tụ thể</label>
+                                                        <input type="text" class="form-control" id="address_k">
+                                                    </div>
+                                                </form>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Xóa</button>
+                                                <button type="button" class="btn btn-primary" id="update_address">Sửa</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+
                                             </div>
                                         </div>
+
                                     </div>
-                                </div> -->
+                                </div>
+                               
 
                             </div>
 

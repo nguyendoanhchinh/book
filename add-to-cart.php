@@ -122,6 +122,48 @@ if ($action == 'tongtien') {
     echo number_format($row['tongtien']);
 }
 
+//thay đổi đia chỉ 
+if ($action == 'change_address') {
+    $username_k=$_POST['username_k'];
+    $phone_k=$_POST['phone_k'];
+    $address_k=$_POST['address_k'];
+    $id_k=$_POST['id_k'];
+    $sql=" UPDATE `khach` SET `k_ten`='$username_k',`k_sdt`='$phone_k',`k_diachi`='$address_k' WHERE k_id=$id_k ";
+    $query = mysqli_query($conn, $sql);
+    if ($query) {
+        echo "Sửa thành công";
+    } else {
+        echo "Sửa thất bại";
+    }
+}
+
+if($action=='oder'){
+    $selectedProducts = json_decode($_POST["selectedProducts"], true);
+    if (!empty($selectedProducts)) {
+        $id = $_SESSION['k_id'];
+        $note = $_POST['note'];
+        $totalPrice = 0;
+        foreach ($selectedProducts as $product) {
+            $id_product = $product["id_product"];
+            $price_product = $product["price_product"];
+            $quantity = $product["quantity"];
+            $total = $price_product * $quantity;
+            $totalPrice += $total;
+        }
+        // Insert into donhang table
+        $sql = "INSERT INTO donhang (k_id, hd_date, note, tongtien) VALUES ('$id', now(), '$note', '$totalPrice')";
+        mysqli_query($conn, $sql);
+        // Get the last inserted id
+        $last_id = mysqli_insert_id($conn);
+        // Insert into chitiethd table
+        foreach ($selectedProducts as $product) {
+            $id_product = $product["id_product"];
+            $quantity = $product["quantity"];
+            $sql = "INSERT INTO chitiethd (hd_id, s_id, sluong) VALUES ('$last_id', '$id_product', '$quantity')";
+            mysqli_query($conn, $sql);
+        }
+    }
+}
 
 
 

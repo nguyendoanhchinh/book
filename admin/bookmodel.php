@@ -32,8 +32,14 @@ if ($action == 'updateBook') {
 // hiển thị sách
 if ($action == 'loadData') {
     $load = $_POST['load'];
-    $sql = "SELECT * from  sach INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
-    INNER JOIN theloai ON sach.tl_id = theloai.tl_id   where s_ten like CONCAT('%$load%') ";
+    $sql = "SELECT s.*, tg.tg_ten, GROUP_CONCAT(CASE WHEN st.tl_id IS NOT NULL THEN tl.tl_ten ELSE theloai.tl_ten END SEPARATOR ', ') AS tl_ten
+    FROM sach s
+    INNER JOIN tacgia tg ON tg.tg_id = s.tg_id
+    LEFT JOIN sach_theloai st ON st.s_id = s.s_id
+    LEFT JOIN theloai ON theloai.tl_id = s.tl_id
+    LEFT JOIN theloai tl ON tl.tl_id = st.tl_id
+    WHERE s.s_ten like CONCAT('%$load%')
+    GROUP BY s.s_id ";
     $query = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($query)) {
 
@@ -59,7 +65,16 @@ if ($action == 'loadData') {
             <td><?php echo $row['soluong']; ?></td>
             <td><?php echo $row['ngonngu']; ?></td>
             <td><?php echo $row['tg_ten']; ?></td>
-            <td><?php echo $row['tl_ten']; ?></td>
+            <td>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <?php
+                                                $genres = explode(',', $row['tl_ten']);
+                                                foreach ($genres as $genre) {
+                                                    echo "<option>$genre</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
             <td>
                 <button type="button" class="btn btn-warning " id_update="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_gia="<?php echo $row['s_gia']; ?>" s_giamgia="<?php echo $row['s_giamgia']; ?>" nxb="<?php echo $row['nxb']; ?>" namxuatban="<?php echo $row['namxuatban']; ?>" sotrang="<?php echo $row['sotrang']; ?>" soluong="<?php echo $row['soluong']; ?>" ngonngu="<?php echo $row['ngonngu']; ?>" id="display" tacgia="<?php echo $row['tg_ten'] ?>" theloai="<?php echo $row['tl_ten'] ?>" data-bs-toggle="modal" data-bs-target="#displayModal">
                     Sửa
@@ -95,8 +110,16 @@ if ($action == 'search') {
 //tìm kiếm theo thể loại
 if ($action == 'searchbycategory') {
         $id = $_POST['id'];
-        $sql = "SELECT sach.*, tacgia.tg_ten, theloai.tl_ten FROM sach INNER JOIN tacgia ON sach.tg_id = tacgia.tg_id INNER JOIN 
-        theloai ON sach.tl_id = theloai.tl_id WHERE sach.tl_id = '$id'";
+        $sql = "SELECT s.*, tg.tg_ten, GROUP_CONCAT(CASE WHEN st.tl_id IS NOT NULL THEN tl.tl_ten ELSE theloai.tl_ten END SEPARATOR ', ') AS tl_ten
+        FROM sach s
+        INNER JOIN tacgia tg ON tg.tg_id = s.tg_id
+        LEFT JOIN sach_theloai st ON st.s_id = s.s_id
+        LEFT JOIN theloai tl ON tl.tl_id = st.tl_id
+        LEFT JOIN theloai theloai ON theloai.tl_id = s.tl_id
+        WHERE s.tl_id = $id OR st.tl_id = $id
+        GROUP BY s.s_id;
+        
+        ";
         $query = mysqli_query($conn, $sql);
         if (mysqli_num_rows($query) > 0) {
             while ($row = mysqli_fetch_assoc($query)) { ?>
@@ -119,7 +142,16 @@ if ($action == 'searchbycategory') {
             <td><?php echo $row['soluong']; ?></td>
             <td><?php echo $row['ngonngu']; ?></td>
             <td><?php echo $row['tg_ten']; ?></td>
-            <td><?php echo $row['tl_ten']; ?></td>
+            <td>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <?php
+                                                $genres = explode(',', $row['tl_ten']);
+                                                foreach ($genres as $genre) {
+                                                    echo "<option>$genre</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
             <td>
                 <button type="button" class="btn btn-warning " id_update="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_gia="<?php echo $row['s_gia']; ?>" s_giamgia="<?php echo $row['s_giamgia']; ?>" nxb="<?php echo $row['nxb']; ?>" namxuatban="<?php echo $row['namxuatban']; ?>" sotrang="<?php echo $row['sotrang']; ?>" soluong="<?php echo $row['soluong']; ?>" ngonngu="<?php echo $row['ngonngu']; ?>" id="display" tacgia="<?php echo $row['tg_id'] ?>" theloai="<?php echo $row['tl_id'] ?>" data-bs-toggle="modal" data-bs-target="#displayModal">
                     Sửa
@@ -137,8 +169,14 @@ if ($action == 'searchbycategory') {
 //danh sách sách
 if ($action == 'list_book') {
         $id = $_POST['id'];
-        $sql = "SELECT * from  sach INNER JOIN tacgia ON tacgia.tg_id = sach.tg_id
-    INNER JOIN theloai ON sach.tl_id = theloai.tl_id   where s_id=$id ";
+        $sql = "SELECT s.*, tg.tg_ten, GROUP_CONCAT(CASE WHEN st.tl_id IS NOT NULL THEN tl.tl_ten ELSE theloai.tl_ten END SEPARATOR ', ') AS tl_ten
+        FROM sach s
+        INNER JOIN tacgia tg ON tg.tg_id = s.tg_id
+        LEFT JOIN sach_theloai st ON st.s_id = s.s_id
+        LEFT JOIN theloai ON theloai.tl_id = s.tl_id
+        LEFT JOIN theloai tl ON tl.tl_id = st.tl_id
+        WHERE s.s_id = $id
+        GROUP BY s.s_id";
         $query = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($query)) {
 
@@ -163,7 +201,16 @@ if ($action == 'list_book') {
             <td><?php echo $row['soluong']; ?></td>
             <td><?php echo $row['ngonngu']; ?></td>
             <td><?php echo $row['tg_ten']; ?></td>
-            <td><?php echo $row['tl_ten']; ?></td>
+            <td>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <?php
+                                                $genres = explode(',', $row['tl_ten']);
+                                                foreach ($genres as $genre) {
+                                                    echo "<option>$genre</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
             <td>
                 <button type="button" class="btn btn-warning " id_update="<?php echo $row['s_id']; ?>" s_ten="<?php echo $row['s_ten']; ?>" s_gia="<?php echo $row['s_gia']; ?>" s_giamgia="<?php echo $row['s_giamgia']; ?>" nxb="<?php echo $row['nxb']; ?>" namxuatban="<?php echo $row['namxuatban']; ?>" sotrang="<?php echo $row['sotrang']; ?>" soluong="<?php echo $row['soluong']; ?>" ngonngu="<?php echo $row['ngonngu']; ?>" id="display" tacgia="<?php echo $row['tg_id'] ?>" theloai="<?php echo $row['tl_id'] ?>" data-bs-toggle="modal" data-bs-target="#displayModal">
                     Sửa

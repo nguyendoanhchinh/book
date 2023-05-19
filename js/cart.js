@@ -259,3 +259,82 @@ $(document).ready(function() {
         }
     });
 });
+//thay đổi địa chỉ  nhận hàng 
+$(document).on('click', '#deliveryAddress', function() {
+    var mail_k = $(this).attr('mail_k');
+    var name = $(this).attr('username_k');
+    var id_k = $(this).attr('id_k');
+
+    var phone = $(this).attr('phone_k');
+    var addrees = $(this).attr('addrees_k');
+    $('#myModal_address').modal('show');
+
+    $('#email_k').val(mail_k);
+    $('#id_k').val(id_k);
+    $('#username_k').val(name);
+    $('#phone_k').val(phone);
+    $('#address_k').val(addrees);
+})
+$(document).on('click', '#update_address', function() {
+    var action = 'change_address';
+    var id_k = $('#id_k').val();
+    var email_k = $('#email_k').val();
+    var username_k = $('#username_k').val();
+    var phone_k = $('#phone_k').val();
+    var address_k = $('#address_k').val();
+    $.ajax({
+        type: 'POST',
+        url: 'add-to-cart.php',
+        data: {
+            action: action,
+            id_k: id_k,
+            email_k: email_k,
+            username_k: username_k,
+            phone_k: phone_k,
+            address_k: address_k
+        },
+        success: function(data) {
+
+            $('#myModal_address').modal('hide');
+            location.reload();
+
+        }
+    });
+});
+
+// thanh toán
+$(document).ready(function() {
+    $("#checkout").click(function(e) {
+        e.preventDefault();
+        var action = "oder";
+        var note = $('input[placeholder="Lưu ý cho người bán..."]').val();
+        // Lấy dữ liệu từ tbody
+        var selectedProducts = [];
+        $("#cart-items tr").each(function() {
+            var id_product = $(this).find(".loadproduct").data("id");
+            var price_product = parseInt($(this).find("td:nth-child(3)").text().trim().replace(/[^0-9]/g, ''));
+            var quantity = parseInt($(this).find(".num-order").text().trim().replace(/[^0-9]/g, ''));
+            selectedProducts.push({
+                id_product: id_product,
+                price_product: price_product,
+                quantity: quantity
+            });
+        });
+        // Gửi dữ liệu thông qua Ajax
+        $.ajax({
+            url: "add-to-cart.php",
+            type: "POST",
+            data: {
+                action: action,
+                note: note,
+                selectedProducts: JSON.stringify(selectedProducts)
+            },
+            success: function(response) {
+                // Xử lý phản hồi từ server nếu cần thiết
+                console.log(response);
+                // redirect(chuyển hướng) tới oder.php 
+                window.location.href = "oder.php";
+            },
+        });
+    });
+});

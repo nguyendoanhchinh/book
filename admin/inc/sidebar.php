@@ -17,6 +17,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Quản lý Thể Loại
                         </a>
+                        <a class="nav-link " href="oderadmin.php" >
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Đơn hàng
+                        </a>
                     </div>
                 </div>
             </nav>
