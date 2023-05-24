@@ -18,7 +18,7 @@ if ($action == 'updateBook') {
     $ngonngu = $_POST['s_ngonngu'];
     $tg_id = trim($_POST['s_tacgia']);
     $tl_id = trim($_POST['s_theloai']);
-
+   
     $sql = "UPDATE `sach` SET `s_ten`='$tensach',`s_gia`='$giasach',`s_giamgia`='$sachgiamgia',`nxb`='$nxb',
     `namxuatban`='$namxuatban',`sotrang`='$sotrang',`soluong`='$soluong',`ngonngu`='$ngonngu',`tg_id`='$tg_id',`tl_id`='$tl_id' WHERE `s_id`='$id'";
     $query = mysqli_query($conn, $sql);

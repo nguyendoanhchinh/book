@@ -87,9 +87,10 @@ $(document).on('click', '#tbnSua', function() {
         },
 
         success: function(data) {
+            console.log(data);
             location.reload();
             $('#displayModal').modal('hide');
-            alert(data);
+
         }
     });
 })

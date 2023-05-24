@@ -14,45 +14,29 @@ function getAll() {
         data: {
             action: action
         },
-        success: function(response) {
-
-
-            $('#tab_getAll').html(response);
-
+        success: function(data) {
+            $('#tab_getAll').html(data);
         }
     })
 };
 
-function getAll() {
-    var action = "getAll";
-    var status1 = 1;
-    var status2 = 2;
-    var status3 = 3;
-    var status4 = 4;
-    $.ajax({
-        type: "POST",
-        url: "handle_oder.php",
-        data: {
-            action: action
 
-        },
-        success: function(data) {
+$(document).ready(function() {
+    $(document).on('click', '#nhanhang', function() {
+        var action = 'nhanhang';
 
-            if (data) {
-                if (data.status == 0) {
-                    $('#tab_choxacnhan').html(data);
-                } else if (data.status == 1) {
-                    $('#tab_cholayhang').html(data);
-                } else if (data.status == 2) {
-                    $('#tab_danggiao').html(data);
-                } else if (data.status == 3) {
-                    $('#tab_dagiao').html(data);
-                } else if (data.status == 4) {
-                    $('#tab_dahuy').html(data);
-                } else {
-                    $('#tab_getAll').html(data);
-                }
+        var nhanhang = $(this).attr('nhanhang');
+        $.ajax({
+            type: "POST",
+            url: "handle_oder.php",
+            data: {
+                action: action,
+                nhanhang: nhanhang
+            },
+            success: function(data) {
+
+                console.log(data)
             }
-        }
-    });
-}
+        })
+    })
+})
