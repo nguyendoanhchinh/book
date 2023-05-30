@@ -73,7 +73,7 @@ session_start();
                                 JOIN donhang ON chitiethd.hd_id = donhang.hd_id
                                INNER JOIN khach ON donhang.k_id = khach.k_id
                                 JOIN sach ON sach.s_id = chitiethd.s_id
-                                WHERE    donhang.status=0";
+                                WHERE    donhang.status=0 ORDER by donhang.hd_id DESC";
                                 $result = mysqli_query($conn, $sql);
 
                                 if (mysqli_num_rows($result) > 0) {
@@ -154,7 +154,7 @@ session_start();
 
                                 <?php
                                     }
-                                }else{
+                                } else {
                                     echo "<h2 style='text-align: center;color: red; margin-top:20%;'>Chưa có đơn hàng!</h2>";
                                 }
                                 ?>
@@ -167,81 +167,81 @@ session_start();
                                             INNER JOIN chitiethd ON donhang.hd_id = chitiethd.hd_id
                                             INNER JOIN khach ON donhang.k_id = khach.k_id
                                             WHERE donhang.status = 1
-                                            GROUP BY donhang.hd_id;";
+                                            GROUP BY donhang.hd_id ORDER by donhang.hd_id DESC;";
                                     $result = mysqli_query($conn, $sql);
                                     if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_array($result)) {
+                                        while ($row = mysqli_fetch_array($result)) {
                                     ?>
 
-                                        <table class="table fixed-width" border="0" cellpadding="0" cellspacing="0">
-                                            <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">ID Đơn hàng</th>
-                                                        <th scope="col">Tên khách hàng</th>
-                                                        <th scope="col">Số điện thoại</th>
-                                                        <th scope="col">Địa chỉ</th>
-                                                        <th scope="col">Số lượng</th>
-                                                        <th scope="col">Ghi chú</th>
-                                                        <th scope="col">Ngày mua</th>
-                                                        <th scope="col">Tổng tiền</th>
-                                                        <th scope="col">Thao tác</th>
-                                                    </tr>
-                                                </thead>
+                                            <table class="table fixed-width" border="0" cellpadding="0" cellspacing="0">
+                                                <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">ID Đơn hàng</th>
+                                                            <th scope="col">Tên khách hàng</th>
+                                                            <th scope="col">Số điện thoại</th>
+                                                            <th scope="col">Địa chỉ</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Ghi chú</th>
+                                                            <th scope="col">Ngày mua</th>
+                                                            <th scope="col">Tổng tiền</th>
+                                                            <th scope="col">Thao tác</th>
+                                                        </tr>
+                                                    </thead>
 
-                                                <tbody id="cart-items">
-                                                    <tr>
-                                                        <td>
-                                                            <p><?php echo $row['hd_id']; ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <p><?php echo $row['k_ten']; ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <p><?php echo $row['k_sdt']; ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <p><?php echo $row['k_diachi']; ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <p><?= $row['sluong']; ?></p>
+                                                    <tbody id="cart-items">
+                                                        <tr>
+                                                            <td>
+                                                                <p><?php echo $row['hd_id']; ?></p>
+                                                            </td>
+                                                            <td>
+                                                                <p><?php echo $row['k_ten']; ?></p>
+                                                            </td>
+                                                            <td>
+                                                                <p><?php echo $row['k_sdt']; ?></p>
+                                                            </td>
+                                                            <td>
+                                                                <p><?php echo $row['k_diachi']; ?></p>
+                                                            </td>
+                                                            <td>
+                                                                <p><?= $row['sluong']; ?></p>
 
-                                                        </td>
-                                                        <td><?= $row['note']; ?></td>
-                                                        <td>
-                                                            <a style="text-decoration: none;color: black;" id="text" type="text" name="num-order" value="" class="num-order"><?= $row['hd_date']; ?></a>
-                                                        </td>
-                                                        <td>
-                                                            <a style="text-decoration: none;color: black;" id="text" type="text" name="num-order" value="" class="num-order"><?= $row['tongtien']; ?></a>
-                                                        </td>
-                                                        <td class="giaohang">
-                                                            <button class="btn btn-success" id="giaohang" giaohang="<?php echo $row['hd_id']; ?>">Giao hàng</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </div>
-                                        </table>
+                                                            </td>
+                                                            <td><?= $row['note']; ?></td>
+                                                            <td>
+                                                                <a style="text-decoration: none;color: black;" id="text" type="text" name="num-order" value="" class="num-order"><?= $row['hd_date']; ?></a>
+                                                            </td>
+                                                            <td>
+                                                                <a style="text-decoration: none;color: black;" id="text" type="text" name="num-order" value="" class="num-order"><?= $row['tongtien']; ?></a>
+                                                            </td>
+                                                            <td class="giaohang">
+                                                                <button class="btn btn-success" id="giaohang" giaohang="<?php echo $row['hd_id']; ?>">Giao hàng</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </div>
+                                            </table>
 
                                     <?php
-                                    }}
-                                    else{
+                                        }
+                                    } else {
                                         echo "<h2 style='text-align: center;color: red; margin-top:20%;'>Chưa có đơn hàng!</h2>";
                                     }
                                     ?>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="dangvanchuyen" role="tabpanel" aria-labelledby="dangchuyen">
-                            <?php
-                                    $sql = "SELECT donhang.*, khach.* , SUM(chitiethd.sluong) AS sluong
+                                <?php
+                                $sql = "SELECT donhang.*, khach.* , SUM(chitiethd.sluong) AS sluong
                                             FROM donhang
                                             INNER JOIN chitiethd ON donhang.hd_id = chitiethd.hd_id
                                             INNER JOIN khach ON donhang.k_id = khach.k_id
                                             WHERE donhang.status =2
-                                            GROUP BY donhang.hd_id;";
-                                    $result = mysqli_query($conn, $sql);
-                                    if (mysqli_num_rows($result) > 0) {
+                                            GROUP BY donhang.hd_id ORDER by donhang.hd_id DESC;";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_array($result)) {
-                                    ?>
+                                ?>
 
                                         <table class="table fixed-width" border="0" cellpadding="0" cellspacing="0">
                                             <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
@@ -292,26 +292,26 @@ session_start();
                                             </div>
                                         </table>
 
-                                    <?php
+                                <?php
                                     }
-                                }else{
+                                } else {
                                     echo "<h2 style='text-align: center;color: red; margin-top:20%;'>Chưa có đơn hàng!</h2>";
                                 }
-                                    ?>
+                                ?>
 
                             </div>
                             <div class="tab-pane fade" id="thanhcong" role="tabpanel" aria-labelledby="contact-tab">
-                            <?php
-                                    $sql = "SELECT donhang.*, khach.* , SUM(chitiethd.sluong) AS sluong
+                                <?php
+                                $sql = "SELECT donhang.*, khach.* , SUM(chitiethd.sluong) AS sluong
                                             FROM donhang
                                             INNER JOIN chitiethd ON donhang.hd_id = chitiethd.hd_id
                                             INNER JOIN khach ON donhang.k_id = khach.k_id
                                             WHERE donhang.status =3
-                                            GROUP BY donhang.hd_id;";
-                                    $result = mysqli_query($conn, $sql);
-                                    if (mysqli_num_rows($result) > 0) {
+                                            GROUP BY donhang.hd_id ORDER by donhang.hd_id DESC;";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_array($result)) {
-                                    ?>
+                                ?>
 
                                         <table class="table fixed-width" border="0" cellpadding="0" cellspacing="0">
                                             <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
@@ -320,7 +320,7 @@ session_start();
                                                         <th scope="col">ID Đơn hàng</th>
                                                         <th scope="col">Tên khách hàng</th>
                                                         <th scope="col">Số điện thoại</th>
-                                                       
+
                                                         <th scope="col">Số lượng</th>
                                                         <th scope="col">Ghi chú</th>
                                                         <th scope="col">Ngày mua</th>
@@ -340,7 +340,7 @@ session_start();
                                                         <td>
                                                             <p><?php echo $row['k_sdt']; ?></p>
                                                         </td>
-                                                       
+
                                                         <td>
                                                             <p><?= $row['sluong']; ?></p>
 
@@ -353,32 +353,98 @@ session_start();
                                                             <a style="text-decoration: none;color: black;" id="text" type="text" name="num-order" value="" class="num-order"><?= $row['tongtien']; ?></a>
                                                         </td>
                                                         <td class="giaohang" style="display:grid;width:150px;">
-                                                            <button class="btn btn-success" id="bienlai"  >Biên lai</button>
-                                                            <button class="btn btn-success" id="giaohang" style="margin-top:15px"  disabled>Thành công</button>
+                                                            <button class="btn btn-success" id="bienlai" 
+                                                            madonhang="<?= $row['hd_id'];  ?>" ngaymua="<?= $row['hd_date'];  ?>"  sodienthoai="<?= $row['k_sdt'];  ?>"
+                                                            tongtien="<?= $row['tongtien']; ?>" tenkhach ="<?= $row['k_ten'];  ?>" diachi="<?= $row['k_diachi'];  ?>"
+                                                            >Biên lai</button>
+                                                            <button class="btn btn-success" id="giaohang" style="margin-top:15px" disabled>Thành công</button>
+                                                            
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </div>
                                         </table>
 
-                                    <?php
+                                <?php
                                     }
-                                }else{
+                                } else {
                                     echo "<h2 style='text-align: center;color: red; margin-top:20%;'>Chưa có đặt hàng!</h2>";
                                 }
-                                    ?>
-
-                            </div>
+                                ?>
 
                             </div>
 
                         </div>
+
                     </div>
                 </div>
-
-            </main>
         </div>
 
+        </main>
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông tin sản phẩm</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <h2 class="text-center">BOOK STORE</h2>
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-6">
+                                    <label class="form-label">Mã đơn hàng:</label>
+                                    <label id="madonhang">123</label> 
+                                   <br>
+                                    <label class="form-label">Ngày:</label>
+                                    <label id="ngaymua">20-12-222</label><br>
+                                    <hr>
+                                    <label class="form-label">Người gửi: Shop Book</label><br>
+                                    <label class="form-label">Địa chỉ: Văn Phú - Hà Đông - Hà Nội</label><br>
+                                    <label class="form-label">Số điện thoại: 098888888</label>
+                                    <hr>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">Người Nhận:</label>
+                                    <label id="tenkhachhang"></label><br>
+                                    <label class="form-label">Địa chỉ:</label>
+                                    <label id="diachikhach"></label><br>
+                                    <label class="form-label">Số điện thoại:</label>
+                                    <label id="sdtkhach" ></label><br><br><br>
+                                    
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label class="form-label">Sản phẩm:</label>
+                                    <p>sản phẩm 1</p>
+                                    <p>sản phẩm 2</p>
+                                    <p>sản phẩm 3</p>
+                                </div>
+                                <div class="col-6 d-flex justify-content-center">
+                                    <div>
+                                        <label class="form-label">Tổng tiền:</label>
+                                        <label style="font-size: 30px;color: red;" id="tongtien"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
     </div>
     <script src="js/category.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>

@@ -34,9 +34,34 @@ $(document).ready(function() {
                 nhanhang: nhanhang
             },
             success: function(data) {
-
+                location.reload()
                 console.log(data)
             }
         })
+    })
+})
+
+$(document).ready(function() {
+    $(document).on('click', '#huydon', function() {
+        $("#myModal_huy").modal('show');
+        var huydon = $(this).attr('huydon');
+
+        $('#huy').on('click', function() {
+            var action = "huy_don";
+
+            $.ajax({
+                type: "POST",
+                url: "handle_oder.php",
+                data: {
+                    action: action,
+                    huydon: huydon
+                },
+                success: function(data) {
+                    location.reload();
+                    console.log(data)
+                }
+            });
+        });
+
     })
 })

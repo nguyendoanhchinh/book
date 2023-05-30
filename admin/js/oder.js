@@ -45,3 +45,24 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
+$(document).ready(function() {
+    $(document).on('click', '#bienlai', function(e) {
+        var madonhang = $(this).attr('madonhang');
+        var tenkhach = $(this).attr('tenkhach');
+        var diachi = $(this).attr('diachi');
+        var ngaymua = $(this).attr('ngaymua');
+        var tongtien = $(this).attr('tongtien');
+        var sodienthoai = $(this).attr('sodienthoai');
+        $('#exampleModal').modal('show')
+
+        $('#madonhang').html(madonhang);
+        $('#ngaymua').html(ngaymua);
+        $('#tenkhachhang').html(tenkhach);
+        $('#diachikhach').html(diachi);
+        $('#tongtien').html(tongtien);
+        $('#sdtkhach').html(sodienthoai);
+    })
+})

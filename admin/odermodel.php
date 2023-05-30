@@ -22,3 +22,13 @@ if ($action = "giaohang") {
         echo "giao hàng thất bại";
     }
 }
+if($action='huy_don'){
+    $huydon = $_POST['giaohang'];
+    $sql = "UPDATE `donhang` SET `status`=4 WHERE `hd_id`='$giaohang'";
+    $result = mysqli_query($conn, $sql);
+    if ($result) {
+        echo "Đang  giao hàng ";
+    } else {
+        echo "giao hàng thất bại";
+    }
+}

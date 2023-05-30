@@ -237,6 +237,7 @@ if (!isset($_GET['productdetail'])) {
 													</div>
 													<ul class="tg-themetabs" role="tablist">
 														<li role="presentation" class="active"><a href="#description" data-toggle="tab">Lợi ích</a></li>
+														<li role="presentation" ><a href="#evaluate" data-toggle="tab">Đánh giá</a></li>
 
 													</ul>
 													<div class="tg-tab-content tab-content">
@@ -259,7 +260,22 @@ if (!isset($_GET['productdetail'])) {
 																<p>Một trong những lợi ích của đọc sách khác là giúp người đọc xây dựng một lối sống lành mạnh. Bạn sẽ ít bị ảnh hưởng bởi các trò tiêu khiển độc hại, hạn chế tiếp xúc với các thiết bị điện tử như máy tính, điện thoại. Nhờ đọc sách bạn sẽ rèn được thói quen đi ngủ sớm, dậy sớm, tỉnh táo và sắp xếp thời gian biểu hợp lý hơn..</p>
 															</div>
 														</div>
-
+														<div role="tabpanel" class="tg-tab-pane tab-pane active" id="evaluate">
+															<div class="tg-description">
+																<p>Đọc sách mang đến nhiều lợi ích bất ngờ mà bạn không hề biết đến. Đọc sách đúng cách giúp kích thích não bộ phát triển tốt hơn, hạn chế lão hóa và giảm khả năng mất trí nhớ. Ngoài ra, đọc sách cũng giúp con người ta nâng cao hiểu biết, làm giàu vốn từ, tăng khả năng tư duy, nhìn nhận vấn đề…</p>
+																
+																<ul class="tg-liststyle">
+																	<li><span>Đọc sách giúp nâng cao hiểu biết</span></li>
+																	<li><span>Tăng cường kỹ năng tư duy, phân tích, tập trung</span></li>
+																	<li><span>Đọc sách giúp mở rộng vốn từ</span></li>
+																	<li><span>Đọc sách giúp rèn luyện trí nhớ</span></li>
+																	<li><span>Đọc sách giúp giảm căng thẳng</span></li>
+																	<li><span>Đọc sách giúp kéo dài tuổi thọ</span></li>
+																	<li><span>Cải thiện khả năng viết lách</span></li>
+																</ul>
+																
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>

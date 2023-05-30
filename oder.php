@@ -23,7 +23,7 @@ include "database/connect.php";
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/responsive.css">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-   
+
 </head>
 
 
@@ -34,7 +34,7 @@ include "database/connect.php";
 				Header Start
 		*************************************-->
         <?php include "header/header.php"; ?>
-<style>
+        <style>
             #info-cart-wp table tbody tr td .thumb {
                 display: inline-block;
                 width: 100px;
@@ -72,7 +72,7 @@ include "database/connect.php";
                 padding: 10px 15px;
                 margin-right: 5px;
 
-                
+
                 font-size: 20px;
                 border-radius: 3px;
                 padding: 10px 21px;
@@ -138,7 +138,7 @@ include "database/connect.php";
                 border-bottom-color: red;
 
             }
-</style>
+        </style>
         <main id="tg-main" class="tg-main tg-haslayout" style="padding-top:30px; background: #f5f5f5;">
             <div class="content">
                 <div class="row">
@@ -151,11 +151,11 @@ include "database/connect.php";
                                             Tất cả </a>
                                     </li>
                                     <li>
-                                        <a href="#tab_choxacnhan  " class="tab tab_choxacnhan"  data-toggle="tab" style="margin-right: 92px;">
+                                        <a href="#tab_choxacnhan  " class="tab tab_choxacnhan" data-toggle="tab" style="margin-right: 92px;">
                                             Chờ xác nhận </a>
                                     </li>
                                     <li>
-                                        <a href="#tab_cholayhang " class="tab tab_cholayhang"  data-toggle="tab" style="margin-right: 92px;">
+                                        <a href="#tab_cholayhang " class="tab tab_cholayhang" data-toggle="tab" style="margin-right: 92px;">
                                             Chờ lấy hàng </a>
                                     </li>
                                     <li>
@@ -173,157 +173,358 @@ include "database/connect.php";
                                 </ul>
                                 <div class="tab-content" style="background: white;margin-top: 51px;">
 
-                                <!-- hiển thị tất cả các đơn hàng -->
+                                    <!-- hiển thị tất cả các đơn hàng -->
                                     <div class="tab-pane active" id="tab_getAll">
 
                                     </div>
                                     <div class="tab-pane" id="tab_choxacnhan">
-                                        
+                                        <?php
+                                        $k_id = $_SESSION['k_id'];
+                                        $sql = "SELECT chitiethd.*, donhang.*, sach.*
+                                                FROM chitiethd
+                                                JOIN donhang ON chitiethd.hd_id = donhang.hd_id
+                                                JOIN khach ON donhang.k_id = khach.k_id
+                                                JOIN sach ON sach.s_id = chitiethd.s_id
+                                                WHERE khach.k_id = $k_id  and donhang.status=0 order by donhang.hd_id desc";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            $orders = [];
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $orders[$row['hd_id']][] = $row;
+                                            }
+                                            foreach ($orders as $hd_id => $order_items) { ?>
+                                                <table class="table" border="0" cellpadding="0" cellspacing="0">
+                                                    <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
+                                                        <tbody id="cart-items">
+                                                            <h2 style="color:orangered;margin-left: 89%; font-size: 22px; ">Chờ xác nhận</h2>
+                                                            <hr>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Ảnh</th>
+                                                                    <th scope="col">Tên</th>
+                                                                    <th scope="col">Gía</th>
+                                                                    <th scope="col">Số lượng</th>
+                                                                    <th scope="col">Tổng tiền</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <?php foreach ($order_items as $item) { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
+                                                                    </td>
+                                                                    <td style=" width: 26%; box-sizing: border-box;">
+                                                                        <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
+                                                                    </td>
+                                                                    <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
+                                                                    <td>
+                                                                        <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
+                                                                    </td>
+                                                                    <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
+                                                                </tr>
+                                                                <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
+                                                                
+
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                                <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
+                                                    <div class="clearfix " style="color: black;margin-left:80%; ">
+                                                        <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
+                                                    </div>
+                                                    <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
+                                                    <div class="clearfix" style="margin-left:80%; ">
+                                                        <div class="fl-right" style="display: flex;">
+                                                            <button class="btn" id="checkout-cart" style="background:orangered;color:white;">Mua lại </button>
+                                                            <button class="btn"  id="huydon" huydon=<?php echo $item['hd_id'] ?> style="background:#e38706;color:black;font-size: 20px;border-radius: 3px;padding: 10px 21px;">Hủy Đơn</button>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        <?php
+                                            }
+                                        } else {
+                                            echo "<h2 style='text-align: center;color: red; margin-top:10%;margin-bottom: 13%;'>Chưa có đơn hàng!</h2>";
+                                        } ?>
                                     </div>
                                     <div class="tab-pane" id="tab_cholayhang">
+                                        <?php
+                                        $k_id = $_SESSION['k_id'];
+                                        $sql = "SELECT chitiethd.*, donhang.*, sach.*
+                                                FROM chitiethd
+                                                JOIN donhang ON chitiethd.hd_id = donhang.hd_id
+                                                JOIN khach ON donhang.k_id = khach.k_id
+                                                JOIN sach ON sach.s_id = chitiethd.s_id
+                                                WHERE khach.k_id = $k_id  and donhang.status=1 order by donhang.hd_id desc";
+                                        $result = mysqli_query($conn, $sql);
 
+                                        if (mysqli_num_rows($result) > 0) {
+                                            $orders = [];
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $orders[$row['hd_id']][] = $row;
+                                            }
+                                            foreach ($orders as $hd_id => $order_items) {
+                                        ?>
+                                                <table class="table" border="0" cellpadding="0" cellspacing="0">
+                                                    <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
+                                                        <tbody id="cart-items">
+                                                            <h2 style="color:orangered; margin-left: 89%;font-size: 22px; ">Chờ lấy hàng</h2>
+                                                            <hr>
+                                                            <?php foreach ($order_items as $item) { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
+                                                                    </td>
+                                                                    <td style=" width: 26%; box-sizing: border-box;">
+                                                                        <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
+                                                                    </td>
+                                                                    <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
+                                                                    <td>
+                                                                        <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
+                                                                    </td>
+                                                                    <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
+                                                                </tr>
+                                                                <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
+                                                               
+
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                                <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
+                                                    <div class="clearfix " style="color: black;margin-left:80%; ">
+                                                        <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
+                                                    </div>
+                                                    <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
+                                                    <div class="clearfix" style="margin-left:80%; ">
+                                                        <div class="fl-right" style="display: flex;">
+                                                            <button class="btn" id="checkout-cart" style="background:orangered;color:white;">Mua lại </button>
+                                                            <button class="btn"  id="huydon" huydon=<?php echo $item['hd_id'] ?> style="background:#e38706;color:black;font-size: 20px;border-radius: 3px;padding: 10px 21px;">Hủy Đơn</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        <?php
+                                            }
+                                        } else {
+                                            echo "<h2 style='text-align: center;color: red; margin-top:10%;margin-bottom: 13%;'>Chưa có đơn hàng!</h2>";
+                                        } ?>
                                     </div>
                                     <div class="tab-pane" id="tab_danggiao">
-                                    <?php
-                                            $k_id = $_SESSION['k_id'];
-                                            $sql = "SELECT chitiethd.*, donhang.*, sach.*
+                                        <?php
+                                        $k_id = $_SESSION['k_id'];
+                                        $sql = "SELECT chitiethd.*, donhang.*, sach.*
                                                         FROM chitiethd
                                                         JOIN donhang ON chitiethd.hd_id = donhang.hd_id
                                                         JOIN khach ON donhang.k_id = khach.k_id
                                                         JOIN sach ON sach.s_id = chitiethd.s_id
-                                                        WHERE khach.k_id = $k_id  and donhang.status=2";
-                                            $result = mysqli_query($conn, $sql);
-                                    
-                                            if (mysqli_num_rows($result) > 0) {
-                                                $orders = [];
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    $orders[$row['hd_id']][] = $row;
-                                                }
-                                                foreach ($orders as $hd_id => $order_items) {
-                                                ?>
-                                                    <table class="table" border="0" cellpadding="0" cellspacing="0">
-                                                        <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
-                                                            <tbody id="cart-items">
-                                                                <h2 style="color:orangered; margin-left: 89%;font-size: 22px; ">Đang  Giao</h2>
-                                                                <hr>
-                                                                <?php foreach ($order_items as $item) { ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
-                                                                        </td>
-                                                                        <td style=" width: 26%; box-sizing: border-box;">
-                                                                            <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
-                                                                        </td>
-                                                                        <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
-                                                                        <td>
-                                                                            <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
-                                                                        </td>
-                                                                        <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
-                                                                    </tr>
-                                                                    <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
-                                                                <?php } ?>
-                                                            </tbody>
-                                                        </div>
-                                                    </table>
-                                                    <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
-                                                        <div class="clearfix " style="color: black;margin-left:80%; ">
-                                                            <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
-                                                        </div>
-                                                        <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
-                                                        <div class="clearfix" style="margin-left:80%; ">
-                                                            <div class="fl-right" style="display: flex;">
-                                                                <button class="btn" id="checkout-cart" style="background:orangered;color:white;" >Mua lại </button>
-                                                                <button class="btn" id="nhanhang" nhanhang ="<?= $item['hd_id'] ?>" style="background:#24ca45;color:black;    margin-right: 5px;
-    font-size: 20px;
-    border-radius: 3px;
-    padding: 10px 21px;">Đã nhận hàng</button>
-                                                            </div>
+                                                        WHERE khach.k_id = $k_id  and donhang.status=2 order by donhang.hd_id desc";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            $orders = [];
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $orders[$row['hd_id']][] = $row;
+                                            }
+                                            foreach ($orders as $hd_id => $order_items) {
+                                        ?>
+                                                <table class="table" border="0" cellpadding="0" cellspacing="0">
+                                                    <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
+                                                        <tbody id="cart-items">
+                                                            <h2 style="color:orangered; margin-left: 89%;font-size: 22px; ">Đang Giao</h2>
+                                                            <hr>
+                                                            <?php foreach ($order_items as $item) { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
+                                                                    </td>
+                                                                    <td style=" width: 26%; box-sizing: border-box;">
+                                                                        <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
+                                                                    </td>
+                                                                    <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
+                                                                    <td>
+                                                                        <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
+                                                                    </td>
+                                                                    <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
+                                                                </tr>
+                                                                <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                                <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
+                                                    <div class="clearfix " style="color: black;margin-left:80%; ">
+                                                        <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
+                                                    </div>
+                                                    <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
+                                                    <div class="clearfix" style="margin-left:80%; ">
+                                                        <div class="fl-right" style="display: flex;">
+                                                            <button class="btn" id="checkout-cart" style="background:orangered;color:white;">Mua lại </button>
+                                                            <button class="btn" id="nhanhang" nhanhang="<?= $item['hd_id'] ?>" style="background:#24ca45;color:black;    margin-right: 5px;font-size: 20px;border-radius: 3px;padding: 10px 21px;">Đã nhận hàng</button>
                                                         </div>
                                                     </div>
-                                    
-                                                <?php
-                                                }
+                                                </div>
+
+                                        <?php
                                             }
-                                        
-                                         ?>
+                                        } else {
+                                            echo "<h2 style='text-align: center;color: red; margin-top:10%;margin-bottom: 13%;'>Chưa có đơn hàng!</h2>";
+                                        }
+                                        ?>
                                     </div>
                                     <div class="tab-pane" id="tab_dagiao">
                                         <?php
-                                            $k_id = $_SESSION['k_id'];
-                                            $sql = "SELECT chitiethd.*, donhang.*, sach.*
+                                        $k_id = $_SESSION['k_id'];
+                                        $sql = "SELECT chitiethd.*, donhang.*, sach.*
                                                         FROM chitiethd
                                                         JOIN donhang ON chitiethd.hd_id = donhang.hd_id
                                                         JOIN khach ON donhang.k_id = khach.k_id
                                                         JOIN sach ON sach.s_id = chitiethd.s_id
-                                                        WHERE khach.k_id = $k_id  and donhang.status=3";
-                                            $result = mysqli_query($conn, $sql);
-                                    
-                                            if (mysqli_num_rows($result) > 0) {
-                                                $orders = [];
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    $orders[$row['hd_id']][] = $row;
-                                                }
-                                                foreach ($orders as $hd_id => $order_items) {
-                                                ?>
-                                                    <table class="table" border="0" cellpadding="0" cellspacing="0">
-                                                        <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
-                                                            <tbody id="cart-items">
-                                                                <h2 style="color:orangered; margin-left: 89%;font-size: 22px; ">Đã  Giao</h2>
-                                                                <hr>
-                                                                <?php foreach ($order_items as $item) { ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
-                                                                        </td>
-                                                                        <td style=" width: 26%; box-sizing: border-box;">
-                                                                            <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
-                                                                        </td>
-                                                                        <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
-                                                                        <td>
-                                                                            <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
-                                                                        </td>
-                                                                        <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
-                                                                    </tr>
-                                                                    <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
-                                                                <?php } ?>
-                                                            </tbody>
-                                                        </div>
-                                                    </table>
-                                                    <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
-                                                        <div class="clearfix " style="color: black;margin-left:80%; ">
-                                                            <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
-                                                        </div>
-                                                        <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
-                                                        <div class="clearfix" style="margin-left:80%; ">
-                                                            <div class="fl-right" style="display: flex;">
-                                                                <button class="btn" id="checkout-cart" style="background:orangered;color:white;" >Mua lại </button>
-                                                                <button class="btn" id="danhgia" style="background:#24ca45;color:black;    margin-right: 5px;
-    font-size: 20px;
-    border-radius: 3px;
-    padding: 10px 21px;">Đánh giá sản phẩm</button>
-                                                            </div>
+                                                        WHERE khach.k_id = $k_id  and donhang.status=3 order by donhang.hd_id desc";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            $orders = [];
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $orders[$row['hd_id']][] = $row;
+                                            }
+                                            foreach ($orders as $hd_id => $order_items) {
+                                        ?>
+                                                <table class="table" border="0" cellpadding="0" cellspacing="0">
+                                                    <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
+                                                        <tbody id="cart-items">
+                                                            <h2 style="color:orangered; margin-left: 89%;font-size: 22px; ">Đã Giao</h2>
+                                                            <hr>
+                                                            <?php foreach ($order_items as $item) { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
+                                                                    </td>
+                                                                    <td style=" width: 26%; box-sizing: border-box;">
+                                                                        <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
+                                                                    </td>
+                                                                    <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
+                                                                    <td>
+                                                                        <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
+                                                                    </td>
+                                                                    <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
+                                                                </tr>
+                                                                <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                                <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
+                                                    <div class="clearfix " style="color: black;margin-left:80%; ">
+                                                        <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
+                                                    </div>
+                                                    <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
+                                                    <div class="clearfix" style="margin-left:80%; ">
+                                                        <div class="fl-right" style="display: flex;">
+                                                            <button class="btn" id="checkout-cart" style="background:orangered;color:white;">Mua lại </button>
+                                                            <button class="btn" id="danhgia" style="background:#24ca45;color:black;    margin-right: 5px;font-size: 20px;border-radius: 3px;padding: 10px 21px;">Đánh giá sản phẩm</button>
                                                         </div>
                                                     </div>
-                                    
-                                                <?php
-                                                }
+                                                </div>
+
+                                        <?php
                                             }
-                                        
-                                         ?>
+                                        }
+
+                                        ?>
                                     </div>
                                     <div class="tab-pane" id="tab_dahuy">
+                                        <?php
+                                        $k_id = $_SESSION['k_id'];
+                                        $sql = "SELECT chitiethd.*, donhang.*, sach.*
+                                                        FROM chitiethd
+                                                        JOIN donhang ON chitiethd.hd_id = donhang.hd_id
+                                                        JOIN khach ON donhang.k_id = khach.k_id
+                                                        JOIN sach ON sach.s_id = chitiethd.s_id
+                                                        WHERE khach.k_id = $k_id  and donhang.status=4 order by donhang.hd_id desc";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            $orders = [];
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $orders[$row['hd_id']][] = $row;
+                                            }
+                                            foreach ($orders as $hd_id => $order_items) {
+                                        ?>
+                                                <table class="table" border="0" cellpadding="0" cellspacing="0">
+                                                    <div class="header-cart-item" style="margin-bottom:20px;background: #f5f5f5;">
+                                                        <tbody id="cart-items">
+                                                            <h2 style="color:orangered; margin-left: 89%;font-size: 22px; ">Đã hủy</h2>
+                                                            <hr>
+                                                            <?php foreach ($order_items as $item) { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="#" title="" class="thumb"><img style="width:90px;" src="images/Image/VanHoc/<?= $item['anh']; ?>" alt=""></a>
+                                                                    </td>
+                                                                    <td style=" width: 26%; box-sizing: border-box;">
+                                                                        <a style="word-wrap: break-word;" href="#" title="" class="name-product "><?= $item['s_ten']; ?></a>
+                                                                    </td>
+                                                                    <td><?= number_format(($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100); ?></td>
+                                                                    <td>
+                                                                        <a id="text" type="text" name="num-order" value="" class="num-order"><?= $item['sluong']; ?></a>
+                                                                    </td>
+                                                                    <td class="loadproduct"><?= number_format((($item['s_gia']) - (($item['s_gia']) * ($item['s_giamgia'])) / 100) * $item['sluong']); ?></td>
+                                                                </tr>
+                                                                <input type="hidden" id="don_status" status_don="<?= $item['status'] ?>">
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </div>
+                                                </table>
+                                                <div style="padding:20px 0px;border-top: 1px dotted rgba(0,0,0,.09);">
+                                                    <div class="clearfix " style="color: black;margin-left:80%; ">
+                                                        <p id="total-oder" class="fl-left ">Tổng tiền: <span style="color: red;font-size: 20px;"><?= number_format($order_items[0]['tongtien']) ?></span> đ</p>
+                                                    </div>
+                                                    <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
+                                                    <div class="clearfix" style="margin-left:80%; ">
+
+                                                        <div class="fl-right" style="display: flex;">
+                                                            <button class="btn" id="checkout-cart" style="background:orangered;color:white;">Mua lại</button>
+
+                                                        </div>
+                                                    </div>
+
+                                            <?php
+                                            }
+                                        }
+
+                                            ?>
+                                                </div>
 
                                     </div>
-                                    
+                                </div>
+                            </div>
+                            <!-- Button trigger modal -->
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="myModal_huy" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-body">
+                                    <p>Bạn có muốn hủy đơn này không !</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+                                    <button type="button" class="btn btn-default" id="huy" data-dismiss="modal">Hủy</button>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-                </div>
-
-                <!--************************************
+                    <!--************************************
 					News Grid End
 			*************************************-->
         </main>
@@ -342,7 +543,7 @@ include "database/connect.php";
     <!--************************************
 			Wrapper End
 	*************************************-->
-    
+
     <script src="js/vendor/jquery-library.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyCR-KEWAVCn52mSdeVeTqZjtqbmVJyfSus&amp;language=en"></script>
@@ -359,7 +560,7 @@ include "database/connect.php";
     <script src="js/cart.js"></script>
     <script src="js/oder.js"></script>
     <script>
-  
+
     </script>
 </body>
 
