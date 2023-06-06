@@ -1,10 +1,55 @@
 // thêm
 $(document).on('click', '#btnAdd', function(e) {
-        e.preventDefault();
+    e.preventDefault();
+    var action = "themsach";
+    var tensach = $("#t_tensach").val();
+    var giasach = $("#t_giasach").val();
+    var sachgiamgia = $("#t_sachgiamgia").val();
+    var nxb = $("#t_nxb").val();
+    var namxuatban = $("#t_namxuatban").val();
+    var mota = $("#t_mota").val();
+    var sotrang = $("#t_sotrang").val();
+    var soluong = $("#t_soluong").val();
+    var ngonngu = $("#t_ngonngu").val();
+    var tacgia = $("#t_tacgia").val();
+    var theloaiChinh = $("#theloai_chinh").val();
+    var cacTheloaiKhac = $("#cac_theloai_khac").val();
+
+    var formData = new FormData();
+    formData.append('action', action);
+    formData.append('tensach', tensach);
+    formData.append('giasach', giasach);
+    formData.append('sachgiamgia', sachgiamgia);
+    formData.append('nxb', nxb);
+    formData.append('namxuatban', namxuatban);
+    formData.append('mota', mota);
+    formData.append('sotrang', sotrang);
+    formData.append('soluong', soluong);
+    formData.append('ngonngu', ngonngu);
+    formData.append('tacgia', tacgia);
+    formData.append('theloaiChinh', theloaiChinh);
+    $.each(cacTheloaiKhac, function(index, value) {
+        formData.append('cacTheloaiKhac[]', value);
+    });
+    formData.append('anhsach', $('#anhsach')[0].files[0]);
+    formData.append('anhsach1', $('#anhsach1')[0].files[0]);
+
+    $.ajax({
+        url: "bookmodel.php",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            console.log(data);
+            location.reload();
+            $('#exampleModal').modal('hide');
+        }
+    });
+});
 
 
-    })
-    //tìm kiếm theo thể loại
+//tìm kiếm theo thể loại
 
 
 $('#tim_theloai').change(function() {

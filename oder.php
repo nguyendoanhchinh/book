@@ -364,7 +364,7 @@ include "database/connect.php";
                                                     <p class="btn" id="comment" style="color: black;font-size: 20px;border-radius: 3px;margin-left: 62px;margin-bottom: -57px;">Nhận xét </p>
                                                     <div class="clearfix" style="margin-left:80%; ">
                                                         <div class="fl-right" style="display: flex;">
-                                                            <button class="btn" id="checkout-cart" style="background:orangered;color:white;">Mua lại </button>
+                                                           
                                                             <button class="btn" id="nhanhang" nhanhang="<?= $item['hd_id'] ?>" style="background:#24ca45;color:black;    margin-right: 5px;font-size: 20px;border-radius: 3px;padding: 10px 21px;">Đã nhận hàng</button>
                                                         </div>
                                                     </div>

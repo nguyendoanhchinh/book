@@ -147,7 +147,7 @@ session_start();
                                             <div class="clearfix" style="margin-left:80%; ">
                                                 <div class="fl-right" style="display: flex;">
                                                     <button class="btn" id="xacnhandon" hd_id="<?php echo $item['hd_id']; ?>" style="background:orangered;color:white;">Xác nhận </button>
-                                                    <button class="btn" id="chitietdon" style="background:#2081b6;color:#f4f4f4;">Chi tiết</button>
+                                                  
                                                 </div>
                                             </div>
                                         </div>
@@ -233,11 +233,11 @@ session_start();
                             <div class="tab-pane fade" id="dangvanchuyen" role="tabpanel" aria-labelledby="dangchuyen">
                                 <?php
                                 $sql = "SELECT donhang.*, khach.* , SUM(chitiethd.sluong) AS sluong
-                                            FROM donhang
-                                            INNER JOIN chitiethd ON donhang.hd_id = chitiethd.hd_id
-                                            INNER JOIN khach ON donhang.k_id = khach.k_id
-                                            WHERE donhang.status =2
-                                            GROUP BY donhang.hd_id ORDER by donhang.hd_id DESC;";
+                                FROM donhang
+                                INNER JOIN chitiethd ON donhang.hd_id = chitiethd.hd_id
+                                INNER JOIN khach ON donhang.k_id = khach.k_id
+                                WHERE donhang.status = 2
+                                GROUP BY donhang.hd_id ORDER by donhang.hd_id DESC;";
                                 $result = mysqli_query($conn, $sql);
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_array($result)) {

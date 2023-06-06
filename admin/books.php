@@ -127,20 +127,32 @@ session_start();
                                                         ?>
                                                     </select>
                                                 </div>
-
                                             </div>
                                             <div class="mb-3">
                                                 <label for="t_theloai" class="form-label">Thể loại</label>
-                                                <select class="form-select" id="t_theloai" aria-label="Default select example">
-                                                    <option selected>--Lựa chọn thể loại--</option>
+                                                <select class="form-select" id="theloai_chinh" name="theloai_chinh">
+                                                    <option selected>--Lựa chọn thể loại chính--</option>
                                                     <?php
-                                                    $sql = "select * from theloai ";
+                                                    $sql = "SELECT * FROM theloai";
                                                     $query = mysqli_query($conn, $sql);
                                                     while ($row = mysqli_fetch_assoc($query)) { ?>
-                                                        <option value="<?php echo $row['tl_id']; ?>"><?php echo $row['tl_ten'] ?></option>
+                                                        <option value="<?php echo $row['tl_id']; ?>"><?php echo $row['tl_ten']; ?></option>
                                                     <?php }
                                                     ?>
                                                 </select>
+                                               
+                                                <select class="form-select" id="cac_theloai_khac" name="cac_theloai_khac[]" multiple>
+                                                    <option selected>--Lựa chọn các thể loại khác--</option>
+                                                    <?php
+                                                    $sql = "SELECT * FROM theloai";
+                                                    $query = mysqli_query($conn, $sql);
+                                                    while ($row = mysqli_fetch_assoc($query)) { ?>
+                                                        <option value="<?php echo $row['tl_id']; ?>"><?php echo $row['tl_ten']; ?></option>
+                                                    <?php }
+                                                    ?>
+                                                </select>
+
+
                                             </div>
                                             <div class="mb-3">
                                                 <label for="anhsach" class="form-label">Ảnh chính</label>
@@ -198,8 +210,8 @@ session_start();
                                                 </div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="s_theloai" class="form-label" >Thể loại</label>
-                                                <select id="s_theloai" class="form-select" aria-label="Default select example" >
+                                                <label for="s_theloai" class="form-label">Thể loại</label>
+                                                <select id="s_theloai" class="form-select" aria-label="Default select example">
                                                     <?php
                                                     $sql = "select * from theloai";
                                                     $query = mysqli_query($conn, $sql);
@@ -251,7 +263,7 @@ session_start();
                                 // Tìm trang đầu
                                 $start = ($current_page - 1) * $limit;
 
-                               
+
                                 $sql = "SELECT s.*, tg.tg_ten, GROUP_CONCAT(CASE WHEN st.tl_id IS NOT NULL THEN tl.tl_ten ELSE theloai.tl_ten END SEPARATOR ', ') AS tl_ten
                                 FROM sach s
                                 INNER JOIN tacgia tg ON tg.tg_id = s.tg_id
@@ -268,7 +280,7 @@ session_start();
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
+                                                <img src="../images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1"><?php echo $row['s_ten']; ?></p>
                                                 </div>

@@ -3,8 +3,58 @@ include "../database/connect.php";
 $action = $_POST['action'];
 
 //thêm sách 
-if ($action == 'addBook') {
+if ($action == 'themsach') {
+    // Retrieve the values from the POST request
+    $tensach = $_POST['tensach'];
+    $giasach = $_POST['giasach'];
+    $sachgiamgia = $_POST['sachgiamgia'];
+    $nxb = $_POST['nxb'];
+    $namxuatban = $_POST['namxuatban'];
+    $mota = $_POST['mota'];
+    $sotrang = $_POST['sotrang'];
+    $soluong = $_POST['soluong'];
+    $ngonngu = $_POST['ngonngu'];
+    $tacgia = $_POST['tacgia'];
+    $theloaiChinh = $_POST['theloaiChinh'];
+    $cacTheloaiKhac = $_POST['cacTheloaiKhac'];
+    $anhsach = $_FILES['anhsach']['name'];
+    $anhsach1 = isset($_FILES['anhsach1']) ? $_FILES['anhsach1']['name'] : null;
+
+    // Process the file uploads if they exist
+    if (isset($_FILES['anhsach'])) {
+        $anhsach_tmp = $_FILES['anhsach']['tmp_name'];
+        move_uploaded_file($anhsach_tmp, "../images/Image/VanHoc/" . $anhsach);
+    }
+
+    if (isset($_FILES['anhsach1'])) {
+        $anhsach1_tmp = $_FILES['anhsach1']['tmp_name'];
+        move_uploaded_file($anhsach1_tmp, "../images/Image/VanHoc/" . $anhsach1);
+    }
+
+    // Thêm sách vào bảng "sach"
+    $sql = "INSERT INTO sach (s_ten, s_gia, s_giamgia, nxb, namxuatban, sotrang, mota, soluong, ngonngu, tg_id, tl_id, anh, anh1) 
+            VALUES ('$tensach', $giasach, $sachgiamgia, '$nxb', $namxuatban, $sotrang, '$mota', $soluong, '$ngonngu', $tacgia, $theloaiChinh, '$anhsach', '$anhsach1')";
+
+    if (mysqli_query($conn, $sql)) {
+        // Lấy id của sách vừa được thêm
+        $sachId = mysqli_insert_id($conn);
+
+        // Thêm các thể loại khác vào bảng trung gian "sach_theloai"
+        if (!empty($cacTheloaiKhac)) {
+            foreach ($cacTheloaiKhac as $theloaiId) {
+                // Insert the values into the "sach_theloai" table
+                $sql = "INSERT INTO sach_theloai (s_id, tl_id) VALUES ($sachId, $theloaiId)";
+                mysqli_query($conn, $sql);
+            }
+        }
+
+        echo "Thêm sách thành công";
+    } else {
+        echo "Thêm sách thất bại";
+    }
 }
+
+
 // sửa sách
 if ($action == 'updateBook') {
     $id = $_POST['id'];
@@ -20,7 +70,7 @@ if ($action == 'updateBook') {
     $tl_id = trim($_POST['s_theloai']);
    
     $sql = "UPDATE `sach` SET `s_ten`='$tensach',`s_gia`='$giasach',`s_giamgia`='$sachgiamgia',`nxb`='$nxb',
-    `namxuatban`='$namxuatban',`sotrang`='$sotrang',`soluong`='$soluong',`ngonngu`='$ngonngu',`tg_id`='$tg_id',`tl_id`='$tl_id' WHERE `s_id`='$id'";
+    `namxuatban`='$namxuatban',`sotrang`='$sotrang',`soluong`='$soluong',`ngonngu`='$ngonngu',`tg_id`='$tg_id' WHERE `s_id`='$id'";
     $query = mysqli_query($conn, $sql);
     if ($query) {
         echo "Sửa thành công";
@@ -47,7 +97,7 @@ if ($action == 'loadData') {
         <tr>
             <td>
                 <div class="d-flex align-items-center">
-                    <img src="image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
+                    <img src="../images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
                     <div class="ms-3">
                         <p class="fw-bold mb-1"><?php echo $row['s_ten'];  ?></p>
 
@@ -126,7 +176,7 @@ if ($action == 'searchbycategory') {
         <tr>
             <td>
                 <div class="d-flex align-items-center">
-                    <img src="image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
+                    <img src="../images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
                     <div class="ms-3">
                         <p class="fw-bold mb-1"><?php echo $row['s_ten']; ?></p>
                     </div>
@@ -184,7 +234,7 @@ if ($action == 'list_book') {
         <tr>
             <td>
                 <div class="d-flex align-items-center">
-                    <img src="image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
+                    <img src="../images/Image/VanHoc/<?php echo $row['anh']; ?>" alt="" style="width: 55px; height: 55px" />
                     <div class="ms-3">
                         <p class="fw-bold mb-1"><?php echo $row['s_ten']; ?></p>
                     </div>

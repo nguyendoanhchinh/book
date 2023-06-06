@@ -9,7 +9,7 @@
     while ($row = mysqli_fetch_assoc($query)) { ?>
         <ul id="parent">
             <li data-value="<?php echo $row['tl_id'] ?> ">
-                <a href="#"><span><?php echo $row['tl_ten'] ?></span><em><?php echo $row['tongsosach'] ?></em></a>
+                <a href="#"><span><?php echo $row['tl_ten'] ?></span><em></em></a>
             </li>
         </ul>
     <?php }

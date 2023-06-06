@@ -237,7 +237,7 @@ if (!isset($_GET['productdetail'])) {
 													</div>
 													<ul class="tg-themetabs" role="tablist">
 														<li role="presentation" class="active"><a href="#description" data-toggle="tab">Lợi ích</a></li>
-														<li role="presentation" ><a href="#evaluate" data-toggle="tab">Đánh giá</a></li>
+														<li role="presentation" ><a href="#evaluate" data-toggle="tab">Hiểu biết </a></li>
 
 													</ul>
 													<div class="tg-tab-content tab-content">

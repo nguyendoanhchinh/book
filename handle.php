@@ -75,11 +75,20 @@ else if ($action == 'theloai') {
     $total_page = ceil($total / $limit);
     // Tìm trang đầu
     $start = ($current_page - 1) * $limit;
-    $sql = "SELECT sach.*, tacgia.*, theloai.*
-    FROM sach
-    INNER JOIN theloai ON sach.tl_id = theloai.tl_id
-    INNER JOIN tacgia ON sach.tg_id = tacgia.tg_id
-    WHERE theloai.tl_id = $theloai limit $start,$limit";
+    $sql = "SELECT s.*, tg.tg_ten, GROUP_CONCAT(DISTINCT tl.tl_ten SEPARATOR ', ') AS tl_ten
+    FROM sach s
+    INNER JOIN tacgia tg ON tg.tg_id = s.tg_id
+    LEFT JOIN sach_theloai st ON st.s_id = s.s_id
+    LEFT JOIN theloai tl ON tl.tl_id = st.tl_id OR tl.tl_id = s.tl_id
+    WHERE s.tl_id = $theloai OR EXISTS (
+        SELECT 1
+        FROM sach_theloai st2
+        WHERE st2.s_id = s.s_id AND st2.tl_id = $theloai
+    )
+    GROUP BY s.s_id
+    LIMIT $start, $limit
+    ";
+   
 }
  if($action=='timkiem'){
     
