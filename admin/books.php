@@ -84,7 +84,7 @@ session_start();
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="t_sachgiamgia" class="form-label">Giảm Gía</label>
-                                                    <input type="number" class="form-control" id="t_sachgiamgia" name="t_sachgiamgia">
+                                                    <input type="number" class="form-control" id="t_sachgiamgia" max="100" min="0" name="t_sachgiamgia">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="t_nxb" class="form-label">Nhà xuất bản</label>

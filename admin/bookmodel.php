@@ -19,8 +19,8 @@ if ($action == 'themsach') {
     $cacTheloaiKhac = $_POST['cacTheloaiKhac'];
     $anhsach = $_FILES['anhsach']['name'];
     $anhsach1 = isset($_FILES['anhsach1']) ? $_FILES['anhsach1']['name'] : null;
-
-    // Process the file uploads if they exist
+    $mota = mysqli_real_escape_string($conn, $mota);
+    
     if (isset($_FILES['anhsach'])) {
         $anhsach_tmp = $_FILES['anhsach']['tmp_name'];
         move_uploaded_file($anhsach_tmp, "../images/Image/VanHoc/" . $anhsach);
@@ -30,10 +30,12 @@ if ($action == 'themsach') {
         $anhsach1_tmp = $_FILES['anhsach1']['tmp_name'];
         move_uploaded_file($anhsach1_tmp, "../images/Image/VanHoc/" . $anhsach1);
     }
-
+   
     // Thêm sách vào bảng "sach"
-    $sql = "INSERT INTO sach (s_ten, s_gia, s_giamgia, nxb, namxuatban, sotrang, mota, soluong, ngonngu, tg_id, tl_id, anh, anh1) 
-            VALUES ('$tensach', $giasach, $sachgiamgia, '$nxb', $namxuatban, $sotrang, '$mota', $soluong, '$ngonngu', $tacgia, $theloaiChinh, '$anhsach', '$anhsach1')";
+    
+$sql = "INSERT INTO sach (s_ten, s_gia, s_giamgia, nxb, namxuatban, sotrang, mota, soluong, ngonngu, tg_id, tl_id, anh, anh1) 
+VALUES ('$tensach', '$giasach', '$sachgiamgia', '$nxb', '$namxuatban', '$sotrang', '$mota', '$soluong', '$ngonngu', '$tacgia', '$theloaiChinh', '$anhsach', '$anhsach1')";
+
 
     if (mysqli_query($conn, $sql)) {
         // Lấy id của sách vừa được thêm

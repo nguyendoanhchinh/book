@@ -50,6 +50,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $(document).on('click', '#bienlai', function(e) {
+
         var madonhang = $(this).attr('madonhang');
         var tenkhach = $(this).attr('tenkhach');
         var diachi = $(this).attr('diachi');
@@ -57,12 +58,26 @@ $(document).ready(function() {
         var tongtien = $(this).attr('tongtien');
         var sodienthoai = $(this).attr('sodienthoai');
         $('#exampleModal').modal('show')
-
         $('#madonhang').html(madonhang);
         $('#ngaymua').html(ngaymua);
         $('#tenkhachhang').html(tenkhach);
         $('#diachikhach').html(diachi);
         $('#tongtien').html(tongtien);
         $('#sdtkhach').html(sodienthoai);
+        var action = "bienlai";
+        $.ajax({
+            type: "post",
+            url: 'odermodel.php',
+            data: {
+                action: action,
+                madonhang: madonhang
+            },
+            success: function(data) {
+
+                console.log(data);
+
+                $('#thongtinsach').html(data)
+            }
+        })
     })
 })

@@ -355,7 +355,7 @@ session_start();
                                                         <td class="giaohang" style="display:grid;width:150px;">
                                                             <button class="btn btn-success" id="bienlai" 
                                                             madonhang="<?= $row['hd_id'];  ?>" ngaymua="<?= $row['hd_date'];  ?>"  sodienthoai="<?= $row['k_sdt'];  ?>"
-                                                            tongtien="<?= $row['tongtien']; ?>" tenkhach ="<?= $row['k_ten'];  ?>" diachi="<?= $row['k_diachi'];  ?>"
+                                                            tongtien="<?=number_format($row['tongtien'])  ?>" tenkhach ="<?= $row['k_ten'];  ?>" diachi="<?= $row['k_diachi'];  ?>"
                                                             >Biên lai</button>
                                                             <button class="btn btn-success" id="giaohang" style="margin-top:15px" disabled>Thành công</button>
                                                             
@@ -397,6 +397,7 @@ session_start();
                             <h2 class="text-center">BOOK STORE</h2>
                             <div class="row mb-3 align-items-center">
                                 <div class="col-6">
+                                    
                                     <label class="form-label">Mã đơn hàng:</label>
                                     <label id="madonhang">123</label> 
                                    <br>
@@ -420,11 +421,9 @@ session_start();
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-6">
-                                    <label class="form-label">Sản phẩm:</label>
-                                    <p>sản phẩm 1</p>
-                                    <p>sản phẩm 2</p>
-                                    <p>sản phẩm 3</p>
+                            <label class="form-label">Sản phẩm:</label>
+                                <div class="col-6" id="thongtinsach">
+                                   
                                 </div>
                                 <div class="col-6 d-flex justify-content-center">
                                     <div>
