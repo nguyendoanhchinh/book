@@ -75,10 +75,10 @@ session_start();
                                         </figure>
                                         <div class="tg-postbookcontent">
                                             <ul class="tg-bookscategories">
-                                                <li><a href="#"><?php echo $row['tl_ten']; ?></a></li>
+                                                <li><a href="productdetail.php?id=<?php echo $row['s_id']; ?>"><?php echo $row['tl_ten']; ?></a></li>
                                             </ul>
                                             <div class="tg-booktitle" style="width: 110%;float: left;padding: 0 0 20px;height: 41px">
-                                                <h3><a href="#"><?php echo $row['s_ten']; ?></a></h3>
+                                                <h3><a href="productdetail.php?id=<?php echo $row['s_id']; ?>"><?php echo $row['s_ten']; ?></a></h3>
                                             </div>
                                             <span class="tg-bookwriter" style="margin-top: 55px; ">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
                                             <span class="tg-stars"><span></span></span>
@@ -86,10 +86,7 @@ session_start();
                                                 <ins><?php echo  number_format(($row['s_gia']) - (($row['s_gia']) * ($row['s_giamgia'])) / 100 )  ?>vnđ</ins>
                                                 <del><?php echo number_format($row['s_giamgia']);  ?>%</del>
                                             </span>
-                                            <!-- <a class="tg-btn tg-btnstyletwo" href="productdetail.php?id=<?php echo $row['s_id']; ?>">
-                                                <i class="fa fa-shopping-basket"></i>
-                                                <em style="font-size: 12px;">Thêm giỏ hàng</em>
-                                            </a> -->
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -133,11 +130,11 @@ session_start();
                                 </figure>
                                 <div class="tg-postbookcontent">
                                     <ul class="tg-bookscategories">
-                                        <li><a href="#"><?php echo $row['tl_ten']; ?></a></li>
+                                        <li><a href="productdetail.php?id=<?php echo $row['s_id']; ?>"><?php echo $row['tl_ten']; ?></a></li>
                                     </ul>
                                     <div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
                                     <div class="tg-booktitle" style="height:50px;">
-                                        <h3><a href="#"><?php echo $row['s_ten']; ?></a></h3>
+                                        <h3><a href="productdetail.php?id=<?php echo $row['s_id']; ?>""><?php echo $row['s_ten']; ?></a></h3>
                                     </div>
                                     <span class="tg-bookwriter" style="margin-top: 38px;">Tác giả: <a href="#"><?php echo $row['tg_ten']; ?></a></span>
                                     <span class="tg-stars"><span></span></span>
@@ -256,7 +253,7 @@ session_start();
                                                 </figure>
                                                 <div class="tg-postbookcontent">
                                                     <ul class="tg-bookscategories">
-                                                        <li><a href="#"><?php echo $row['tl_ten']; ?></a></li>
+                                                        <li><a href="productdetail.php?id=<?php echo $row['s_id']; ?>"><?php echo $row['tl_ten']; ?></a></li>
                                                     </ul>
                                                     <div class="tg-booktitle" style="height: 58px;">
                                                         <h3><a href="productdetail.php?id=<?php echo $row['s_id']; ?>"><?php echo $row['s_ten']; ?></a></h3>
@@ -276,64 +273,7 @@ session_start();
                 </div>
             </div>
         </section>
-        <!--************************************
-					New Release End
-			*************************************-->
-        <!--************************************
-					Collection Count Start
-			*************************************-->
-        <!-- <section class="tg-parallax tg-bgcollectioncount tg-haslayout" data-z-index="-100" data-appear-top-offset="600" data-parallax="scroll" data-image-src="images/parallax/bgparallax-04.jpg">
-            <div class="tg-sectionspace tg-collectioncount tg-haslayout">
-                <div class="container">
-                    <div class="row">
-                        <div id="tg-collectioncounters" class="tg-collectioncounters">
-                            <div class="tg-collectioncounter tg-drama">
-                                <div class="tg-collectioncountericon">
-                                    <i class="icon-bubble"></i>
-                                </div>
-                                <div class="tg-titlepluscounter">
-                                    <h2>Drama</h2>
-                                    <h3 data-from="0" data-to="6179213" data-speed="8000" data-refresh-interval="50">6,179,213</h3>
-                                </div>
-                            </div>
-                            <div class="tg-collectioncounter tg-horror">
-                                <div class="tg-collectioncountericon">
-                                    <i class="icon-heart-pulse"></i>
-                                </div>
-                                <div class="tg-titlepluscounter">
-                                    <h2>Horror</h2>
-                                    <h3 data-from="0" data-to="3121242" data-speed="8000" data-refresh-interval="50">3,121,242</h3>
-                                </div>
-                            </div>
-                            <div class="tg-collectioncounter tg-romance">
-                                <div class="tg-collectioncountericon">
-                                    <i class="icon-heart"></i>
-                                </div>
-                                <div class="tg-titlepluscounter">
-                                    <h2>Romance</h2>
-                                    <h3 data-from="0" data-to="2101012" data-speed="8000" data-refresh-interval="50">2,101,012</h3>
-                                </div>
-                            </div>
-                            <div class="tg-collectioncounter tg-fashion">
-                                <div class="tg-collectioncountericon">
-                                    <i class="icon-star"></i>
-                                </div>
-                                <div class="tg-titlepluscounter">
-                                    <h2>Fashion</h2>
-                                    <h3 data-from="0" data-to="1158245" data-speed="8000" data-refresh-interval="50">1,158,245</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        <!--************************************
-					Collection Count End
-			*************************************-->
-        <!--************************************
-					Picked By Author Start
-			*************************************-->
+
         <section class="tg-sectionspace tg-haslayout">
             <div class="container">
                 <div class="row">

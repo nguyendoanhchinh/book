@@ -31,7 +31,7 @@ session_start();
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Trang chủ</h1>
                     <main class="container mt-5 mb-5">
-
+                        <h2 style="margin-bottom:40px;">Thông tin chung</h2>
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="card mb-2" style="width: 100%;">
@@ -110,6 +110,145 @@ session_start();
                                         </h5>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row pt-4">
+                            <h2>Thống kê sản phẩm</h2>
+                            <div class="col-sm-3">
+                                <div class="card mb-2" style="width: 100%;">
+                                    <div class="card-body" style="background: rgb(51,102,204);">
+                                        <h5 class="card-title text-center">
+                                            <a href="authors.php" class="text-decoration-none text-white"><i class="fa-solid fa-box"></i>Tổng số khách</a>
+                                        </h5>
+
+                                        <?php
+                                        $sql = "SELECT COUNT(DISTINCT k_id) AS total_customers FROM donhang WHERE status=4";
+                                        $query = mysqli_query($conn, $sql);
+                                        $row1 = mysqli_fetch_assoc($query);
+
+                                        ?>
+                                        <h5 class="h1 text-center">
+                                            <?php echo $row1['total_customers']; ?>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card mb-2" style="width: 100%;">
+                                    <div class="card-body" style="background: #109618;">
+                                        <h5 class="card-title text-center">
+                                            <a href="" class="text-decoration-none text-white"><i class="fa-solid fa-cart-shopping"></i>Tổng số đơn hàng</a>
+                                        </h5>
+                                        <?php
+                                        $sql = "select  COUNT(*) as total FROM donhang WHERE status =4 ";
+                                        $query = mysqli_query($conn, $sql);
+                                        $row2 = mysqli_fetch_assoc($query);
+
+                                        ?>
+                                        <h5 class="h1 text-center">
+                                            <?php echo $row2['total']; ?>
+                                        </h5>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="card mb-2" style="width: 100%;">
+                                    <div class="card-body" style="background: #FF9900;">
+                                        <h5 class="card-title text-center">
+                                            <a href="categorys.php" class="text-decoration-none text-white"> <i class="fa-solid fa-money-bill"></i>Tổng doanh thu</a>
+                                        </h5>
+
+                                        <?php
+                                        $sql = "select sum(tongtien) as tong from donhang where status=4";
+                                        $query = mysqli_query($conn, $sql);
+                                        $row = mysqli_fetch_assoc($query);
+
+                                        ?>
+                                        <h5 class="h1 text-center">
+                                            <?php echo number_format($row['tong']); ?>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="card mb-2" style="width: 100%;">
+                                    <div class="card-body" style="background: #DC3912;">
+                                        <h5 class="card-title text-center">
+                                            <a href="authors.php" class="text-decoration-none text-white"><i class="fa-solid fa-box"></i>Số lượng sản phẩm bán ra</a>
+                                        </h5>
+
+                                        <?php
+                                        $sql = "SELECT SUM(so_luong) AS tong_so_luong
+                                        FROM (
+                                            SELECT cthd.hd_id, SUM(cthd.sluong) AS so_luong
+                                            FROM chitiethd cthd
+                                            JOIN donhang dh ON cthd.hd_id = dh.hd_id
+                                            WHERE dh.status = 4
+                                            GROUP BY cthd.hd_id
+                                        ) AS so_luong_theo_hd";
+                                        $query = mysqli_query($conn, $sql);
+                                        $row3 = mysqli_fetch_assoc($query);
+
+                                        ?>
+                                        <h5 class="h1 text-center">
+                                            <?php echo $row3['tong_so_luong']; ?>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div style="margin-left: 17%;">
+                                <html>
+
+
+                                <head>
+                                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                    <script type="text/javascript">
+                                        <?php
+                                        echo "var totalCustomers = " . $row1['total_customers'] . ";";
+                                        echo "var totalOrders = " . $row2['total'] . ";";
+                                        echo "var totalQuantity = " . $row3['tong_so_luong'] . ";";
+                                        ?>
+
+
+
+                                        google.charts.load("current", {
+                                            packages: ["corechart"]
+                                        });
+                                        google.charts.setOnLoadCallback(drawChart);
+
+                                        function drawChart() {
+                                            var data = google.visualization.arrayToDataTable([
+                                                ['Task', 'Value'],
+                                                ['Tổng số khách', totalCustomers],
+                                                ['Tổng số đơn hàng', totalOrders],
+                                                ['Số lượng sản phẩm bán ra', totalQuantity],
+                                            ]);
+
+                                            var options = {
+                                                title: 'Thống kê đơn hàng',
+                                                is3D: true,
+                                            };
+
+                                            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                                            chart.draw(data, options);
+                                        }
+                                    </script>
+                                </head>
+
+                                <body>
+                                    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+                                </body>
+
+                                </html>
                             </div>
                         </div>
                     </main>
